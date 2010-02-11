@@ -21,13 +21,13 @@ import org.apache.commons.httpclient.methods.PostMethod;
  */
 public class SwsLogin {
 
-	public static String LOGIN_URL;
+	private final String LOGIN_URL;
 	private final String FORM_POST_URL;
 	private static final String LOGIN_ERROR_STRING = "SwsLoginErrorPage";
 
 	public SwsLogin() {
 
-		SwsLogin.LOGIN_URL = "https://www.sendregning.no/sws/";
+		this.LOGIN_URL = "https://www.sendregning.no/sws/";
 		this.FORM_POST_URL = "https://www.sendregning.no/sws/j_security_check";
 	}
 
@@ -42,7 +42,7 @@ public class SwsLogin {
 			throw new IllegalArgumentException("Parameter domainName can't be null or an empty String");
 		}
 
-		SwsLogin.LOGIN_URL = "https://" + domainName + "/sws/";
+		this.LOGIN_URL = "https://" + domainName + "/sws";
 		this.FORM_POST_URL = "https://" + domainName + "/sws/j_security_check";
 	}
 

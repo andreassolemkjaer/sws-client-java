@@ -10,15 +10,12 @@ package no.sws.client;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -30,13 +27,9 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.Format;
 
-import no.sws.client.balance.Balance;
-import no.sws.client.balance.BalanceHelper;
 import no.sws.invoice.Invoice;
 import no.sws.invoice.InvoiceHelper;
 import no.sws.invoice.InvoiceType;
-import no.sws.salesledger.SalesledgerEntry;
-import no.sws.salesledger.SalesledgerHelper;
 import no.sws.util.XmlUtils;
 
 /**
@@ -55,7 +48,7 @@ public class SwsClient {
 
 	private static NameValuePair[] LIST_INVOICE_HTTP_PARAMS;
 	private static NameValuePair[] SEND_INVOICE_HTTP_PARAMS;
-	
+
 	private final SwsLogin login;
 	private final HttpClient httpClient;
 
@@ -418,98 +411,6 @@ public class SwsClient {
 		getInvoices.releaseConnection();
 
 		return result;
-	}
-	
-	public List<SalesledgerEntry> getSalesledgerEntries(Integer recipientNo) throws SwsResponseCodeException, HttpException, IOException, SwsParsingServerResponseException {
-		
-		if(recipientNo == null || recipientNo <= 0) {
-			throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
-		}
-		
-		final GetMethod salesledgerEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=salesledger&recipientNo=" + recipientNo);
-		
-		try {
-			Integer responseCode = httpClient.executeMethod(salesledgerEntries);
-			
-			String response = salesledgerEntries.getResponseBodyAsString();
-			
-			if(responseCode != 200) {
-				throw new SwsResponseCodeException(responseCode, response);
-			}
-			
-			try {
-				return SalesledgerHelper.mapResponseToListOfSalesledgerEntries(XmlUtils.string2Xml(response));
-			}
-			catch(JDOMException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-			catch(SwsMissingRequiredElementAttributeInResponseException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-			catch(SwsMissingRequiredElementInResponseException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-			catch (ParseException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-		}
-		finally {
-			salesledgerEntries.releaseConnection();
-		}
-	}
-	
-	public Balance getBalanceForRecipient(Integer recipientNo) throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
-		
-		if(recipientNo == null || recipientNo <= 0) {
-			throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
-		}
-		
-		final GetMethod balanceEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=balance&recipientNo=" + recipientNo);
-		
-		try {
-			Integer responseCode = httpClient.executeMethod(balanceEntries);
-			
-			String response = balanceEntries.getResponseBodyAsString();
-			
-			if(responseCode != 200) {
-				throw new SwsResponseCodeException(responseCode, response);
-			}
-			
-			try {
-				return BalanceHelper.mapResponseToBalance(XmlUtils.string2Xml(response));
-			}
-			catch(JDOMException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-		}
-		finally {
-			balanceEntries.releaseConnection();
-		}
-	}
-	
-	public Map<Integer, Balance> getBalanceForAllRecipients() throws SwsParsingServerResponseException, IOException, SwsResponseCodeException {
-	
-		final GetMethod balanceEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=balance");
-		
-		try {
-			Integer responseCode = httpClient.executeMethod(balanceEntries);
-			
-			String response = balanceEntries.getResponseBodyAsString();
-			
-			if(responseCode != 200) {
-				throw new SwsResponseCodeException(responseCode, response);
-			}
-			
-			try {
-				return BalanceHelper.mapResponseToListOfBalanceEntries(XmlUtils.string2Xml(response));
-			}
-			catch(JDOMException e) {
-				throw new SwsParsingServerResponseException(response, e);
-			}
-		}
-		finally {
-			balanceEntries.releaseConnection();
-		}
 	}
 
 	private PostMethod createPostMethod(final NameValuePair[] httpParams, final String swsXml) {

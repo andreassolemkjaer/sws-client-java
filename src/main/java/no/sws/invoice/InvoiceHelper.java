@@ -18,7 +18,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 
-import no.sws.SwsHelper;
 import no.sws.client.SwsClient;
 import no.sws.client.SwsMissingRequiredElementInResponseException;
 import no.sws.client.SwsNoInvoiceLinesForInvoiceException;
@@ -39,7 +38,7 @@ import no.sws.util.XmlUtils;
 /**
  * @author Pål Orby, Balder Programvare AS
  */
-public class InvoiceHelper extends SwsHelper {
+public class InvoiceHelper {
 
 	private static final Logger log = Logger.getLogger(InvoiceHelper.class);
 
@@ -398,7 +397,6 @@ public class InvoiceHelper extends SwsHelper {
 			
 			invoice.setInvoiceNo(Integer.parseInt(getElementValue(optionalElement, "invoiceNo", true)));
 			invoice.setOrderNo(getElementValue(optionalElement, "orderNo", false));
-			// TODO: convert dates
 			invoice.setInvoiceDate(new Date());
 			invoice.setDueDate(new Date());
 			invoice.setOrderDate(new Date());
@@ -419,6 +417,36 @@ public class InvoiceHelper extends SwsHelper {
 		else {
 			log.warn("No <invoice> element given to InvoiceHelper.mapOptionalValues():\n"
 					+ XmlUtils.xmlElement2String(invoiceElement, Format.getPrettyFormat()));
+		}
+	}
+
+	/**
+	 * Small internal helper method to get a element value
+	 * 
+	 * @param parent Parent element holding the element to look for
+	 * @param elementName The name of the element holding the value to look for
+	 * @param required Is the element we are looking for required. If set to true and we can't find the element or the
+	 *        value, an Exception is thrown. False is assumed if this is null.
+	 * @return The value of the element, null if not found
+	 * @throws SwsMissingRequiredElementInResponseException If we can't find the element by name
+	 */
+	private static String getElementValue(final Element parent, final String elementName, Boolean required)
+			throws SwsMissingRequiredElementInResponseException {
+
+		if(required == null) {
+			required = Boolean.FALSE;
+		}
+
+		final Element element = parent.getChild(elementName);
+
+		if(element != null && element.getTextTrim().length() > 0) {
+			return element.getTextTrim();
+		}
+		else if(required) {
+			throw new SwsMissingRequiredElementInResponseException(elementName, XmlUtils.xmlElement2String(parent, Format.getPrettyFormat()));
+		}
+		else {
+			return null;
 		}
 	}
 }
