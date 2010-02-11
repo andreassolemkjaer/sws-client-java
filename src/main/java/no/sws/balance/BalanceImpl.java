@@ -1,4 +1,4 @@
-package no.sws.client.balance;
+package no.sws.balance;
 
 import java.math.BigDecimal;
 
