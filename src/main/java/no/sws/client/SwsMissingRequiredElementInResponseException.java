@@ -15,17 +15,17 @@ public class SwsMissingRequiredElementInResponseException extends Exception {
 
 	private static final long serialVersionUID = 200908L;
 	private final String elementName;
-	private final String parentElementName;
+	private final String parentElement;
 
-	public SwsMissingRequiredElementInResponseException(final String elementName, final String parentElementName) {
+	public SwsMissingRequiredElementInResponseException(final String elementName, final String parentElement) {
 
 		this.elementName = elementName;
-		this.parentElementName = parentElementName;
+		this.parentElement = parentElement;
 	}
 
 	@Override
 	public String getMessage() {
 
-		return "Can't find required child element <" + this.elementName + "> in element:\n" + this.parentElementName;
+		return "Can't find required child element <" + this.elementName + "> in element:\n" + this.parentElement;
 	}
 }

@@ -15,29 +15,15 @@ public class SwsParsingServerResponseException extends Exception {
 
 	private static final long serialVersionUID = 200908L;
 	private final String response;
-	private final Exception cause;
 
 	public SwsParsingServerResponseException(final String response) {
 
 		this.response = response;
-		this.cause = null;
-	}
-	
-	public SwsParsingServerResponseException(final String response, Exception cause) {
-
-		this.response = response;
-		this.cause = cause;
 	}
 
 	@Override
 	public String getMessage() {
 
-		if(cause != null) {
-		
-			return "Error parsing server response:\n" + this.response + "\n\n" + this.cause.toString();
-		}
-		else {
-			return "Error parsing server response:\n" + this.response;
-		}
+		return "Error parsing server response:\n" + this.response;
 	}
 }

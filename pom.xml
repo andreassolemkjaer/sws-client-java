@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.sws.app</groupId>
 	<artifactId>sws-client</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>SWS Client</name>
 	<organization>
@@ -13,14 +12,14 @@
 	<developers>
 		<developer>
 			<name>Pål Orby</name>
-			<email>orby at sendregning.no</email>
+			<email>orby at balder.no</email>
 			<timezone>+1</timezone>
 			<organization>Balder Programvare AS</organization>
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/tags/sws-client-1.0</connection>
+		<developerConnection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/tags/sws-client-1.0</developerConnection>
 	</scm>
 	
 	<distributionManagement>
@@ -33,14 +32,14 @@
 		<repository>
 			<id>sr-repo</id>
 			<name>Sendregning on nexus</name>
-			<url>http://embla.balder.no:8081/nexus/content/repositories/sendregning
+			<url>http://embla.balder.no:8081/nexus/content/repositories/sendregning/
 			</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>sr-snapshot-repo</id>
 			<name>Sendregning snapshot on nexus</name>
-			<url>http://embla.balder.no:8081/nexus/content/repositories/snapshots
+			<url>http://embla.balder.no:8081/nexus/content/repositories/snapshots/
 			</url>
 		</snapshotRepository>
 	</distributionManagement>
