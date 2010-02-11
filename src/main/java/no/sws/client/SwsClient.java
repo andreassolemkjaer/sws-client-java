@@ -14,6 +14,15 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+import no.sws.balance.Balance;
+import no.sws.balance.BalanceHelper;
+import no.sws.invoice.Invoice;
+import no.sws.invoice.InvoiceHelper;
+import no.sws.invoice.InvoiceType;
+import no.sws.salesledger.SalesledgerEntry;
+import no.sws.salesledger.SalesledgerHelper;
+import no.sws.util.XmlUtils;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -29,15 +38,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.Format;
-
-import no.sws.client.balance.Balance;
-import no.sws.client.balance.BalanceHelper;
-import no.sws.invoice.Invoice;
-import no.sws.invoice.InvoiceHelper;
-import no.sws.invoice.InvoiceType;
-import no.sws.salesledger.SalesledgerEntry;
-import no.sws.salesledger.SalesledgerHelper;
-import no.sws.util.XmlUtils;
 
 /**
  * @author Pål Orby, Balder Programvare AS
