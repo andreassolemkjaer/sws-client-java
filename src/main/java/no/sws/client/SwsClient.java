@@ -157,6 +157,9 @@ public class SwsClient {
 			// this is from the server, so everything should be all right with the response
 			throw new RuntimeException(e.getMessage(), e);
 		}
+		catch (ParseException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 
 	public List<Invoice> getInvoices(final Integer... invoiceNumbers) throws HttpException, IOException {
@@ -202,6 +205,9 @@ public class SwsClient {
 		}
 		catch(JDOMException e) {
 			// this is from the server, so everything should be all right with the response
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		catch (ParseException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
@@ -347,13 +353,18 @@ public class SwsClient {
 			response = XmlUtils.string2Xml(responseBodyAsString);
 		}
 		catch(final JDOMException e) {
-			throw new SwsParsingServerResponseException(responseBodyAsString);
+			throw new SwsParsingServerResponseException(responseBodyAsString, e);
 		}
 		finally {
 			sendInvoices.releaseConnection();
 		}
 
-		final List<Invoice> result = InvoiceHelper.xml2Invoice(response);
+		List<Invoice> result;
+		try {
+			result = InvoiceHelper.xml2Invoice(response);
+		} catch (ParseException e) {
+			throw new SwsParsingServerResponseException(responseBodyAsString, e);
+		}
 
 		return result;
 	}

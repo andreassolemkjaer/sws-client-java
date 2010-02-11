@@ -17,8 +17,6 @@ public class BalanceHelper {
 
 		Map<Integer, Balance> result = new HashMap<Integer, Balance>();
 		
-		
-		
 		return result;		
 	}
 }

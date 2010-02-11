@@ -9,6 +9,7 @@
 package no.sws.invoice;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -203,9 +204,10 @@ public class InvoiceHelper extends SwsHelper {
 	 * @throws SwsMissingRequiredElementInResponseException If we can't find a required element in the response
 	 * @throws SwsNotValidRecipientException If the required elements name, city or zip isn't found in the invoice
 	 *         elements from the response
+	 * @throws ParseException If we encounter problem parsing a date 
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Invoice> xml2Invoice(final Document xml) throws SwsMissingRequiredElementInResponseException, SwsNotValidRecipientException {
+	public static List<Invoice> xml2Invoice(final Document xml) throws SwsMissingRequiredElementInResponseException, SwsNotValidRecipientException, ParseException {
 
 		final List<Invoice> result = new LinkedList<Invoice>();
 
@@ -373,7 +375,7 @@ public class InvoiceHelper extends SwsHelper {
 		}
 	}
 
-	private static void mapOptionalValues(final Element invoiceElement, final Invoice invoice) throws SwsMissingRequiredElementInResponseException {
+	private static void mapOptionalValues(final Element invoiceElement, final Invoice invoice) throws SwsMissingRequiredElementInResponseException, ParseException {
 
 		if(invoice == null) {
 			throw new IllegalArgumentException("Param invoice can't be null. I'm trying to add many objects to that object");
@@ -399,9 +401,14 @@ public class InvoiceHelper extends SwsHelper {
 			invoice.setInvoiceNo(Integer.parseInt(getElementValue(optionalElement, "invoiceNo", true)));
 			invoice.setOrderNo(getElementValue(optionalElement, "orderNo", false));
 			// TODO: convert dates
-			invoice.setInvoiceDate(new Date());
-			invoice.setDueDate(new Date());
-			invoice.setOrderDate(new Date());
+			invoice.setInvoiceDate(stringToDate(getElementValue(optionalElement, "invoiceDate", true)));
+			
+			// dueDate is -- -- -- when invoice type != ordinary
+			if(invoice.getInvoiceType().equals(InvoiceType.ordinary)) {
+				invoice.setDueDate(stringToDate(getElementValue(optionalElement, "dueDate", false)));
+			}
+			
+			invoice.setOrderDate(stringToDate(getElementValue(optionalElement, "orderDate", true)));
 			invoice.setState(getElementValue(optionalElement, "state", true));
 			invoice.setOurRef(getElementValue(optionalElement, "ourRef", false));
 			invoice.setYourRef(getElementValue(optionalElement, "yourRef", false));
