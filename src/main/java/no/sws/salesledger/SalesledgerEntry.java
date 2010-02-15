@@ -22,34 +22,30 @@ public interface SalesledgerEntry {
 	public BigDecimal getAmount();
 
 	/**
-	 * The entry date. When it comes to a automaticPayment this is the date the
-	 * amount was transferred to your account.
+	 * The entry date. When it comes to a automaticPayment this is the date the amount was transferred to your account.
 	 * 
 	 * @return
 	 */
 	public Date getDate();
 
 	/**
-	 * This can return null, since it's possible SendRegning.no couldn't figure
-	 * out to which invoice this entry belongs to. Usually happens when
-	 * type="automaticPayment"
+	 * This can return null, since it's possible SendRegning.no couldn't figure out to which invoice this entry belongs
+	 * to. Usually happens when type="automaticPayment"
 	 * 
 	 * @return The invoice number that this entry is connected to.
 	 */
 	public Integer getInvoiceNo();
 
 	public void setInvoiceNo(Integer invoiceNo);
-	
+
 	/**
-	 * This can return null, since it's possible SendRegning.no couldn't figure
-	 * out to which invoice this entry belongs to. Usually happens when
-	 * type="automaticPayment"
+	 * This can return null, since it's possible SendRegning.no couldn't figure out to which invoice this entry belongs
+	 * to. Usually happens when type="automaticPayment"
 	 * 
-	 * @return An url to the invoice, this url doesn't require you to log in to
-	 *         view the PDF
+	 * @return An url to the invoice, this url doesn't require you to log in to view the PDF
 	 */
 	public String getInvoiceUrl();
-	
+
 	public void setInvoiceUrl(String url);
 
 	/**
@@ -61,6 +57,6 @@ public interface SalesledgerEntry {
 	 * @return The credited invoice number
 	 */
 	public Integer getCreditedInvoiceNo();
-	
+
 	public void setCreditedInvoiceNo(Integer creditedInvoiceNo);
 }

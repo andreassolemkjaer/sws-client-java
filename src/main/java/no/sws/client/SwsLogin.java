@@ -52,7 +52,7 @@ public class SwsLogin {
 		final HttpClient httpClient = new HttpClient();
 
 		// HTTP GET forespørselen etter innloggingsiden
-		final GetMethod loggInnSide = new GetMethod(this.LOGIN_URL);
+		final GetMethod loggInnSide = new GetMethod(SwsLogin.LOGIN_URL);
 		loggInnSide.setFollowRedirects(true);
 		httpClient.executeMethod(loggInnSide);
 		loggInnSide.releaseConnection();
@@ -60,7 +60,7 @@ public class SwsLogin {
 		// Da har vi kommet til innloggingsiden, her må vi fylle inn brukernavn
 		// og passord
 		final PostMethod formPost = new PostMethod(this.FORM_POST_URL);
-		formPost.addParameter("Referer", this.LOGIN_URL);
+		formPost.addParameter("Referer", SwsLogin.LOGIN_URL);
 		formPost.addParameter("j_username", username);
 		formPost.addParameter("j_password", password);
 

@@ -65,7 +65,7 @@ public class RecipientHelper {
 		return result;
 	}
 
-	public static List<Element> getOptionalRecipientValuesAsXmlElements(Recipient recipient) {
+	public static List<Element> getOptionalRecipientValuesAsXmlElements(final Recipient recipient) {
 
 		if(recipient == null) {
 			throw new NullPointerException("Parameter recipient can't be null");
@@ -111,13 +111,13 @@ public class RecipientHelper {
 	 * @param recipient to validate
 	 * @return True or false
 	 */
-	public static boolean validate(Recipient recipient) {
+	public static boolean validate(final Recipient recipient) {
 
 		if(recipient == null) {
 			return false;
 		}
 		else {
-			
+
 			if(recipient.getName() == null || recipient.getName().trim().length() == 0) {
 				return false;
 			}

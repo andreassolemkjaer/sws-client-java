@@ -31,9 +31,11 @@ public interface Shipment {
 
 	/**
 	 * Specify to which addresses to send the invoice
+	 * 
 	 * @param emailAddresses
 	 * @throws IllegalArgumentException If you try to set null or an empty list.
-	 * @throws IllegalStateException If you try to specify email addresses when shipment type isn't <code>email</code> or <code>paper_and_email</code>.
+	 * @throws IllegalStateException If you try to specify email addresses when shipment type isn't <code>email</code>
+	 *         or <code>paper_and_email</code>.
 	 */
 	public void setEmailAddresses(List<String> emailAddresses);
 
@@ -41,25 +43,31 @@ public interface Shipment {
 
 	/**
 	 * Specify to which addresses to send a copy of the invoice to.
+	 * 
 	 * @param copyAddresses
 	 * @throws IllegalArgumentException If you try to set null or an empty list.
-	 * @throws IllegalStateException If you try to specify copy addresses when shipment type isn't <code>email</code> or <code>paper_and_email</code>.
+	 * @throws IllegalStateException If you try to specify copy addresses when shipment type isn't <code>email</code> or
+	 *         <code>paper_and_email</code>.
 	 */
 	public void setCopyAddresses(List<String> copyAddresses);
 
 	/**
 	 * Shortcut for adding one email address.
+	 * 
 	 * @param emailAddress
 	 * @throws IllegalArgumentException If you try to set null or an empty String
-	 * @throws IllegalStateException If you try to specify an email address when shipment type isn't <code>email</code> or <code>paper_and_email</code>.
+	 * @throws IllegalStateException If you try to specify an email address when shipment type isn't <code>email</code>
+	 *         or <code>paper_and_email</code>.
 	 */
 	public void addEmailAddress(String emailAddress);
 
 	/**
 	 * Shortcut for adding one copy address.
+	 * 
 	 * @param copyAddress
 	 * @throws IllegalArgumentException If you try to set null or an empty String
-	 * @throws IllegalStateException If you try to specify a copy address when shipment type isn't <code>email</code> or <code>paper_and_email</code>.
+	 * @throws IllegalStateException If you try to specify a copy address when shipment type isn't <code>email</code> or
+	 *         <code>paper_and_email</code>.
 	 */
 	public void addCopyAddress(String copyAddress);
 }

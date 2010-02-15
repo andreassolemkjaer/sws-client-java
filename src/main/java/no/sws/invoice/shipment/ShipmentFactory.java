@@ -14,12 +14,15 @@ package no.sws.invoice.shipment;
 public class ShipmentFactory {
 
 	/**
-	 * Shortcut, normally you would get an instance of <code>ShipmentFactory</code>, but this gives you a <code>Shipment</code> directly.
+	 * Shortcut, normally you would get an instance of <code>ShipmentFactory</code>, but this gives you a
+	 * <code>Shipment</code> directly.
+	 * 
 	 * @param shipmentType - The ShipmentType (required)
 	 * @return A <code>Shipment</code>.
 	 * @throws IllegalArgumentException If shipmentType is null.
 	 */
-	public static Shipment getInstance(ShipmentType shipmentType) {
+	public static Shipment getInstance(final ShipmentType shipmentType) {
+
 		return new ShipmentImpl(shipmentType);
 	}
 }

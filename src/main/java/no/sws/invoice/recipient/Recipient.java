@@ -19,7 +19,9 @@ public interface Recipient {
 
 	public String getName();
 
-	/** Set name.
+	/**
+	 * Set name.
+	 * 
 	 * @param name to set.
 	 * @throws IllegalArgumentException If name is null or zero length.
 	 */
@@ -35,7 +37,9 @@ public interface Recipient {
 
 	public String getZip();
 
-	/** Set zip.
+	/**
+	 * Set zip.
+	 * 
 	 * @param zip to set.
 	 * @throws IllegalArgumentException If zip is null or zero length.
 	 */
@@ -43,7 +47,9 @@ public interface Recipient {
 
 	public String getCity();
 
-	/** Set city.
+	/**
+	 * Set city.
+	 * 
 	 * @param city to set.
 	 * @throws IllegalArgumentException If city is null or zero length.
 	 */
@@ -52,7 +58,7 @@ public interface Recipient {
 	public String getCountry();
 
 	public void setCountry(String country);
-	
+
 	public String getEmail();
 
 	public void setEmail(String elementValue);

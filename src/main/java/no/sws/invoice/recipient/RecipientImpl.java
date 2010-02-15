@@ -159,42 +159,34 @@ public class RecipientImpl implements Recipient {
 
 		this.country = country;
 	}
-	
+
 	public String getEmail() {
 
 		return this.email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 
 		this.email = email;
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name=value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	 * Constructs a <code>String</code> with all attributes in name=value format.
+	 * 
+	 * @return a <code>String</code> representation of this object.
 	 */
+	@Override
 	public String toString() {
-		
-	    final String ln = "\n";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("RecipientImpl ( ")
-	        .append(super.toString()).append(ln)
-	        .append("recipientNo=").append(this.recipientNo).append(ln)
-	        .append("name=").append(this.name).append(ln)
-	        .append("address1=").append(this.address1).append(ln)
-	        .append("address2=").append(this.address2).append(ln)
-	        .append("zip=").append(this.zip).append(ln)
-	        .append("city=").append(this.city).append(ln)
-	        .append("country=").append(this.country).append(ln)
-	        .append("email=").append(this.email).append(ln)
-	        .append(" )");
-	    
-	    return retValue.toString();
+
+		final String ln = "\n";
+
+		final StringBuilder retValue = new StringBuilder();
+
+		retValue.append("RecipientImpl ( ").append(super.toString()).append(ln).append("recipientNo=").append(this.recipientNo).append(ln).append(
+				"name=").append(this.name).append(ln).append("address1=").append(this.address1).append(ln).append("address2=").append(this.address2)
+				.append(ln).append("zip=").append(this.zip).append(ln).append("city=").append(this.city).append(ln).append("country=").append(
+						this.country).append(ln).append("email=").append(this.email).append(ln).append(" )");
+
+		return retValue.toString();
 	}
 }

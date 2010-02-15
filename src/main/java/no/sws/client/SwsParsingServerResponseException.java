@@ -22,8 +22,8 @@ public class SwsParsingServerResponseException extends Exception {
 		this.response = response;
 		this.cause = null;
 	}
-	
-	public SwsParsingServerResponseException(final String response, Exception cause) {
+
+	public SwsParsingServerResponseException(final String response, final Exception cause) {
 
 		this.response = response;
 		this.cause = cause;
@@ -32,8 +32,8 @@ public class SwsParsingServerResponseException extends Exception {
 	@Override
 	public String getMessage() {
 
-		if(cause != null) {
-		
+		if(this.cause != null) {
+
 			return "Error parsing server response:\n" + this.response + "\n\n" + this.cause.toString();
 		}
 		else {

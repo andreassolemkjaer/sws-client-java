@@ -24,9 +24,9 @@ public class ShipmentImpl implements Shipment {
 	 * @param shipmentType
 	 * @throws IllegalArgumentException If shipmentType is null.
 	 */
-	public ShipmentImpl(ShipmentType shipmentType) {
+	public ShipmentImpl(final ShipmentType shipmentType) {
 
-		this.setShipmentType(shipmentType);
+		setShipmentType(shipmentType);
 	}
 
 	/*
@@ -42,7 +42,7 @@ public class ShipmentImpl implements Shipment {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.shipment.Shipment#setShipmentType(no.sws.invoice.shipment.ShipmentType)
 	 */
-	public void setShipmentType(ShipmentType shipmentType) {
+	public void setShipmentType(final ShipmentType shipmentType) {
 
 		if(shipmentType == null) {
 			throw new IllegalArgumentException("Param shipmentType can't be null");
@@ -64,7 +64,7 @@ public class ShipmentImpl implements Shipment {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.shipment.Shipment#setEmailAddresses(java.util.List)
 	 */
-	public void setEmailAddresses(List<String> emailAddresses) {
+	public void setEmailAddresses(final List<String> emailAddresses) {
 
 		if(this.shipmentType == ShipmentType.email || this.shipmentType == ShipmentType.paper_and_email) {
 
@@ -92,7 +92,7 @@ public class ShipmentImpl implements Shipment {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.shipment.Shipment#setCopyAddresses(java.util.List)
 	 */
-	public void setCopyAddresses(List<String> copyAddresses) {
+	public void setCopyAddresses(final List<String> copyAddresses) {
 
 		if(this.shipmentType == ShipmentType.email || this.shipmentType == ShipmentType.paper_and_email) {
 
@@ -112,7 +112,7 @@ public class ShipmentImpl implements Shipment {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.shipment.Shipment#addEmailAddress(java.lang.String)
 	 */
-	public void addEmailAddress(String emailAddress) {
+	public void addEmailAddress(final String emailAddress) {
 
 		// can we add an email address?
 		if(this.shipmentType == ShipmentType.email || this.shipmentType == ShipmentType.paper_and_email) {
@@ -126,7 +126,7 @@ public class ShipmentImpl implements Shipment {
 			if(this.emailAddresses == null) {
 				this.emailAddresses = new LinkedList<String>();
 			}
-			
+
 			// add email address
 			this.emailAddresses.add(emailAddress);
 		}
@@ -139,11 +139,11 @@ public class ShipmentImpl implements Shipment {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.shipment.Shipment#addCopyAddress(java.lang.String)
 	 */
-	public void addCopyAddress(String copyAddress) {
+	public void addCopyAddress(final String copyAddress) {
 
 		// can we add a copy address?
 		if(this.shipmentType == ShipmentType.email || this.shipmentType == ShipmentType.paper_and_email) {
-			
+
 			// did we get a value to set
 			if(copyAddress == null || copyAddress.trim().length() == 0) {
 				throw new IllegalArgumentException("Param copyAddress can't be null or an empty String");
@@ -153,7 +153,7 @@ public class ShipmentImpl implements Shipment {
 			if(this.copyAddresses == null) {
 				this.copyAddresses = new LinkedList<String>();
 			}
-			
+
 			// add copy address
 			this.copyAddresses.add(copyAddress);
 		}
@@ -164,27 +164,21 @@ public class ShipmentImpl implements Shipment {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name=value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	 * Constructs a <code>String</code> with all attributes in name=value format.
+	 * 
+	 * @return a <code>String</code> representation of this object.
 	 */
+	@Override
 	public String toString() {
-		
-	    final String ln = "\n";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("ShipmentImpl ( ")
-	        .append(super.toString()).append(ln)
-	        .append("shipmentType=").append(this.shipmentType).append(ln)
-	        .append("emailAddresses=").append(this.emailAddresses).append(ln)
-	        .append("copyAddresses=").append(this.copyAddresses).append(ln)
-	        .append(" )");
-	    
-	    return retValue.toString();
-	}
 
+		final String ln = "\n";
+
+		final StringBuilder retValue = new StringBuilder();
+
+		retValue.append("ShipmentImpl ( ").append(super.toString()).append(ln).append("shipmentType=").append(this.shipmentType).append(ln).append(
+				"emailAddresses=").append(this.emailAddresses).append(ln).append("copyAddresses=").append(this.copyAddresses).append(ln).append(" )");
+
+		return retValue.toString();
+	}
 
 }

@@ -38,7 +38,7 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setItemNo(java.lang.Integer)
 	 */
-	public void setItemNo(Integer itemNo) {
+	public void setItemNo(final Integer itemNo) {
 
 		this.itemNo = itemNo;
 	}
@@ -56,10 +56,10 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setQty(java.math.BigDecimal)
 	 */
-	public void setQty(BigDecimal qty) {
+	public void setQty(final BigDecimal qty) {
 
 		if(qty != null) {
-			
+
 			if(qty.compareTo(BigDecimal.ZERO) <= 0) {
 				throw new IllegalArgumentException("Parameter qty must be greater than zero");
 			}
@@ -84,7 +84,7 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setProdCode(java.lang.String)
 	 */
-	public void setProdCode(String prodCode) {
+	public void setProdCode(final String prodCode) {
 
 		this.prodCode = prodCode;
 	}
@@ -102,7 +102,7 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setDesc(java.lang.String)
 	 */
-	public void setDesc(String desc) {
+	public void setDesc(final String desc) {
 
 		this.desc = desc;
 	}
@@ -120,7 +120,7 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setUnitPrice(java.math.BigDecimal)
 	 */
-	public void setUnitPrice(BigDecimal unitPrice) {
+	public void setUnitPrice(final BigDecimal unitPrice) {
 
 		if(unitPrice != null) {
 			this.unitPrice = unitPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -143,7 +143,7 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setDiscount(java.math.BigDecimal)
 	 */
-	public void setDiscount(BigDecimal discount) {
+	public void setDiscount(final BigDecimal discount) {
 
 		if(discount != null) {
 
@@ -172,69 +172,65 @@ public class InvoiceLineImpl implements InvoiceLine {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setTax(java.lang.Integer)
 	 */
-	public void setTax(Integer tax) {
+	public void setTax(final Integer tax) {
 
 		this.tax = tax;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#getTaxAmount()
 	 */
 	public BigDecimal getLineTaxAmount() {
-	
+
 		return this.taxAmount;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setTaxAmount(java.math.BigDecimal)
 	 */
-	public void setLineTaxAmount(BigDecimal taxAmount) {
-	
+	public void setLineTaxAmount(final BigDecimal taxAmount) {
+
 		this.taxAmount = taxAmount;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#getTotal()
 	 */
 	public BigDecimal getLineTotal() {
-	
+
 		return this.total;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see no.sws.invoice.InvoiceLine#setTotal(java.math.BigDecimal)
 	 */
-	public void setLineTotal(BigDecimal total) {
-	
+	public void setLineTotal(final BigDecimal total) {
+
 		this.total = total;
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name=value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	 * Constructs a <code>String</code> with all attributes in name=value format.
+	 * 
+	 * @return a <code>String</code> representation of this object.
 	 */
+	@Override
 	public String toString() {
-		
-	    final String ln = "\n";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("InvoiceLineImpl ( ")
-	        .append(super.toString()).append(ln)
-	        .append("itemNo=").append(this.itemNo).append(ln)
-	        .append("qty=").append(this.qty).append(ln)
-	        .append("prodCode=").append(this.prodCode).append(ln)
-	        .append("desc=").append(this.desc).append(ln)
-	        .append("unitPrice=").append(this.unitPrice).append(ln)
-	        .append("discount=").append(this.discount).append(ln)
-	        .append("tax=").append(this.tax).append(ln)
-	        .append("taxAmount=").append(this.taxAmount).append(ln)
-	        .append("total=").append(this.total).append(ln)
-	        .append(" )");
-	    
-	    return retValue.toString();
+
+		final String ln = "\n";
+
+		final StringBuilder retValue = new StringBuilder();
+
+		retValue.append("InvoiceLineImpl ( ").append(super.toString()).append(ln).append("itemNo=").append(this.itemNo).append(ln).append("qty=")
+				.append(this.qty).append(ln).append("prodCode=").append(this.prodCode).append(ln).append("desc=").append(this.desc).append(ln)
+				.append("unitPrice=").append(this.unitPrice).append(ln).append("discount=").append(this.discount).append(ln).append("tax=").append(
+						this.tax).append(ln).append("taxAmount=").append(this.taxAmount).append(ln).append("total=").append(this.total).append(ln)
+				.append(" )");
+
+		return retValue.toString();
 	}
 }

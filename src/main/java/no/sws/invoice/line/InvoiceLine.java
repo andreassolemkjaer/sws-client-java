@@ -21,9 +21,8 @@ import java.math.BigDecimal;
  * <li>discount
  * <li>tax
  * </ul>
- * 
  * The same implementation is used for debit and credit invoices.
- *  
+ * 
  * @author Pål Orby, Balder Programvare AS
  */
 public interface InvoiceLine {
@@ -36,7 +35,10 @@ public interface InvoiceLine {
 
 	/**
 	 * Set quantity for this invoice line.
-	 * <p>This can be omitted if the line is used as a text line</p>
+	 * <p>
+	 * This can be omitted if the line is used as a text line
+	 * </p>
+	 * 
 	 * @param qty
 	 * @throws IllegalArgumentException If qty is either less than or equal to zero.
 	 */
@@ -54,7 +56,10 @@ public interface InvoiceLine {
 
 	/**
 	 * Set unit price for this invoice line.
-	 * <p>This can be omitted if the line is used as a text line</p>
+	 * <p>
+	 * This can be omitted if the line is used as a text line
+	 * </p>
+	 * 
 	 * @param unitPrice
 	 * @throws IllegalArgumentException If unitPrice is null.
 	 */
@@ -64,6 +69,7 @@ public interface InvoiceLine {
 
 	/**
 	 * Set discount for this invoice line.
+	 * 
 	 * @param discount A value between (inclusive) 0 and 100.
 	 * @throws IllegalArgumentException If discount is less than zero or greater than 100.
 	 */
@@ -72,12 +78,12 @@ public interface InvoiceLine {
 	public Integer getTax();
 
 	public void setTax(Integer tax);
-	
+
 	public BigDecimal getLineTaxAmount();
-	
+
 	public void setLineTaxAmount(BigDecimal bigDecimal);
 
 	public BigDecimal getLineTotal();
-	
+
 	public void setLineTotal(BigDecimal bigDecimal);
 }

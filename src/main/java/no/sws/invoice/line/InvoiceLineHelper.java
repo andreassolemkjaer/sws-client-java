@@ -19,17 +19,17 @@ import org.jdom.Element;
  */
 public class InvoiceLineHelper {
 
-	public static List<Element> getInvoiceLineValuesAsXmlElements(InvoiceLine currentLine) {
+	public static List<Element> getInvoiceLineValuesAsXmlElements(final InvoiceLine currentLine) {
 
-		Integer itemNo = currentLine.getItemNo();
-		BigDecimal qty = currentLine.getQty();
-		String prodCode = currentLine.getProdCode();
-		String desc = currentLine.getDesc();
-		BigDecimal unitPrice = currentLine.getUnitPrice();
-		BigDecimal discount = currentLine.getDiscount();
-		Integer tax = currentLine.getTax();
+		final Integer itemNo = currentLine.getItemNo();
+		final BigDecimal qty = currentLine.getQty();
+		final String prodCode = currentLine.getProdCode();
+		final String desc = currentLine.getDesc();
+		final BigDecimal unitPrice = currentLine.getUnitPrice();
+		final BigDecimal discount = currentLine.getDiscount();
+		final Integer tax = currentLine.getTax();
 
-		List<Element> result = new LinkedList<Element>();
+		final List<Element> result = new LinkedList<Element>();
 
 		if(itemNo != null) {
 			result.add(new Element("itemNo").setText(itemNo.toString()));
@@ -52,7 +52,7 @@ public class InvoiceLineHelper {
 		if(tax != null) {
 			result.add(new Element("tax").setText(tax.toString()));
 		}
-		
+
 		return result;
 	}
 }

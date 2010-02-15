@@ -13,10 +13,14 @@ package no.sws.invoice.recipient;
  */
 public class RecipientFactory {
 
-	/** Shortcut, normally you would get an instance of <code>RecipientFactory</code>, but this gives you an <code>Recipient</code> directly.
+	/**
+	 * Shortcut, normally you would get an instance of <code>RecipientFactory</code>, but this gives you an
+	 * <code>Recipient</code> directly.
+	 * 
 	 * @return An </code>Recipient</code>
 	 */
 	public static Recipient getInstance() {
+
 		return new RecipientImpl();
 	}
 }

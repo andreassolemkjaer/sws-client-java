@@ -2,11 +2,10 @@ package no.sws.balance;
 
 import java.math.BigDecimal;
 
-
 public class BalanceBuilder {
 
-	public Balance create(Integer recipientNo, BigDecimal balance) {
-	
+	public static Balance create(final Integer recipientNo, final BigDecimal balance) {
+
 		return new BalanceImpl(recipientNo, balance);
 	}
 }
