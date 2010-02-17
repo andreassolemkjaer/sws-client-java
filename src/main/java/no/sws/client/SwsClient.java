@@ -523,7 +523,7 @@ public class SwsClient {
 			}
 
 			try {
-				return BalanceHelper.mapResponseToListOfBalanceEntries(XmlUtils.string2Xml(response));
+				return BalanceHelper.mapResponseToMapOfBalanceEntries(XmlUtils.string2Xml(response));
 			}
 			catch(final JDOMException e) {
 				throw new SwsParsingServerResponseException(response, e);

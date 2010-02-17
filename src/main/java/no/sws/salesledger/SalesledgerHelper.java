@@ -31,49 +31,60 @@ public class SalesledgerHelper extends SwsHelper {
 
 			// is the root element named salesledger
 			if(rootElement.getName().equals("salesledger")) {
+				
+				final Element recipientsElement = rootElement.getChild("recipients");
+				
+				if(recipientsElement != null) {
 
-				final Element recipientElement = rootElement.getChild("recipient");
-
-				// do we find the recipient element
-				if(recipientElement != null) {
-
-					final Element entriesElement = recipientElement.getChild("entries");
-
-					// do we find the entries element
-					if(entriesElement != null) {
-
-						final List<Element> entryElements = entriesElement.getChildren("entry");
-
-						// iterate all entry elements and create SalesledgerEntry elements
-						for(final Element current : entryElements) {
-
-							// entry id - required
-							final Integer id = new Integer(getElementAttributeValue(current, "id", true));
-
-							// entry type - required
-							final SalesledgerEntryType entryType = SalesledgerEntryType.valueOf(getElementValue(current, "type", true));
-
-							// amount - required
-							final BigDecimal amount = new BigDecimal(getElementValue(current, "amount", true)).setScale(2, BigDecimal.ROUND_HALF_UP);
-
-							// date - required
-							final Date date = stringToDate(getElementValue(current, "date", true));
-
-							// invoiceNo - optional
-							final Integer invoiceNo = Integer.parseInt(getElementValue(current, "invoiceNo", false));
-
-							// url - optional
-							final String url = getElementValue(current, "invoiceUrl", false);
-
-							// credited invoiceNo - optional
-							final Integer creditedInvoiceNo = Integer.parseInt(getElementValue(current, "creditedInvoiceNo", false));
-
-							// create SalesledgerEntry
-							final SalesledgerEntry entry = SalesledgerEntryBuilder.create(id, entryType, amount, date, invoiceNo, url,
-									creditedInvoiceNo);
-
-							// add entry to list
-							result.add(entry);
+					final Element recipientElement = recipientsElement.getChild("recipient");
+	
+					// do we find the recipient element
+					if(recipientElement != null) {
+	
+						final Element entriesElement = recipientElement.getChild("entries");
+	
+						// do we find the entries element
+						if(entriesElement != null) {
+	
+							final List<Element> entryElements = entriesElement.getChildren("entry");
+	
+							// iterate all entry elements and create SalesledgerEntry elements
+							for(final Element current : entryElements) {
+	
+								// entry id - required
+								final Integer id = new Integer(getElementAttributeValue(current, "id", true));
+	
+								// entry type - required
+								final SalesledgerEntryType entryType = SalesledgerEntryType.valueOf(getElementValue(current, "type", true));
+	
+								// amount - required
+								final BigDecimal amount = new BigDecimal(getElementValue(current, "amount", true)).setScale(2, BigDecimal.ROUND_HALF_UP);
+	
+								// date - required
+								final Date date = stringToDate(getElementValue(current, "date", true));
+	
+								// invoiceNo - optional
+								final Integer invoiceNo = Integer.parseInt(getElementValue(current, "invoiceNo", false));
+	
+								// url - optional
+								final String url = getElementValue(current, "invoiceUrl", false);
+	
+								// credited invoiceNo - optional
+								String creditedInvoiceNoStringValue = getElementValue(current, "creditedInvoiceNo", false);
+								
+								Integer creditedInvoiceNo = null;
+								
+								if(creditedInvoiceNoStringValue != null && creditedInvoiceNoStringValue.trim().length() > 0) {
+									creditedInvoiceNo = Integer.parseInt(creditedInvoiceNoStringValue);
+								}
+	
+								// create SalesledgerEntry
+								final SalesledgerEntry entry = SalesledgerEntryBuilder.create(id, entryType, amount, date, invoiceNo, url,
+										creditedInvoiceNo);
+	
+								// add entry to list
+								result.add(entry);
+							}
 						}
 					}
 				}

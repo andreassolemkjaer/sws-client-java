@@ -32,11 +32,16 @@ public class BalanceHelper extends SwsHelper {
 			Element rootElement = xmlDoc.getRootElement();
 
 			if(rootElement != null && rootElement.getName().equals("balance")) {
+				
+				Element recipientsElement = rootElement.getChild("recipients");
 
-				Element recipientElement = rootElement.getChild("recipient");
+				if(recipientsElement != null) {
 
-				if(recipientElement != null) {
-					return mapRecipientElementToBalance(recipientElement);
+					Element recipientElement = recipientsElement.getChild("recipient");
+	
+					if(recipientElement != null) {
+						return mapRecipientElementToBalance(recipientElement);
+					}
 				}
 			}
 		}
@@ -55,9 +60,9 @@ public class BalanceHelper extends SwsHelper {
 	 * @throws NumberFormatException If we can't format the value of the no attribute to an Integer.
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<Integer, Balance> mapResponseToListOfBalanceEntries(final Document xmlDoc) throws SwsMissingRequiredElementInResponseException,
+	public static Map<Integer, Balance> mapResponseToMapOfBalanceEntries(final Document xmlDoc) throws SwsMissingRequiredElementInResponseException,
 			SwsMissingRequiredElementAttributeInResponseException, NumberFormatException {
-
+		
 		final Map<Integer, Balance> result = new HashMap<Integer, Balance>();
 
 		if(xmlDoc != null) {
@@ -91,7 +96,7 @@ public class BalanceHelper extends SwsHelper {
 		if(recipientElement != null) {
 
 			Integer recipientNo = new Integer(getElementAttributeValue(recipientElement, "no", true));
-			BigDecimal balance = new BigDecimal(getElementValue(recipientElement, "balance", true)).setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal balance = stringToBigDecimal(getElementValue(recipientElement, "balance", true));
 
 			return BalanceBuilder.create(recipientNo, balance);
 		}

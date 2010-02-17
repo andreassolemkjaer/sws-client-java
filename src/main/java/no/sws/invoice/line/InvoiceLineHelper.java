@@ -35,7 +35,7 @@ public class InvoiceLineHelper {
 			result.add(new Element("itemNo").setText(itemNo.toString()));
 		}
 		if(qty != null) {
-			result.add(new Element("qty").setText(qty.setScale(2, BigDecimal.ROUND_HALF_UP).toString()));
+			result.add(new Element("qty").setText(qty.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
 		}
 		if(prodCode != null) {
 			result.add(new Element("prodCode").setText(prodCode));
@@ -44,10 +44,10 @@ public class InvoiceLineHelper {
 			result.add(new Element("desc").setText(desc));
 		}
 		if(unitPrice != null) {
-			result.add(new Element("unitPrice").setText(unitPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString()));
+			result.add(new Element("unitPrice").setText(unitPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
 		}
 		if(discount != null) {
-			result.add(new Element("discount").setText(discount.setScale(2, BigDecimal.ROUND_HALF_UP).toString()));
+			result.add(new Element("discount").setText(discount.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
 		}
 		if(tax != null) {
 			result.add(new Element("tax").setText(tax.toString()));

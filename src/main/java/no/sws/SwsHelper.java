@@ -1,17 +1,18 @@
 package no.sws;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.output.Format;
-
 import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
 import no.sws.client.SwsMissingRequiredElementInResponseException;
 import no.sws.util.XmlUtils;
+
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.output.Format;
 
 /**
  * Abstract helper class hosting common helper methods between domain helpers.
@@ -67,13 +68,13 @@ public abstract class SwsHelper {
 			required = Boolean.FALSE;
 		}
 
-		final Attribute attribute = element.getAttribute("id");
+		final Attribute attribute = element.getAttribute(attributeName);
 
 		if(attribute != null && attribute.getValue() != null && attribute.getValue().trim().length() > 0) {
 			return attribute.getValue().trim();
 		}
 		else if(required) {
-			throw new SwsMissingRequiredElementAttributeInResponseException("id", "entry");
+			throw new SwsMissingRequiredElementAttributeInResponseException(attributeName, element.getName());
 		}
 		else {
 			return null;
@@ -97,5 +98,15 @@ public abstract class SwsHelper {
 		}
 
 		return null;
+	}
+	
+	protected static BigDecimal stringToBigDecimal(final String value) {
+	
+		if(value == null || value.length() == 0) {
+
+			return new BigDecimal("0.00").setScale(2, BigDecimal.ROUND_HALF_UP);
+		}
+		
+		return new BigDecimal(value.replaceAll(",", ".").replaceAll(" ", "")).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }
