@@ -8,15 +8,23 @@
  */
 package no.sws.invoice.recipient;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
+import no.sws.client.SwsMissingRequiredElementInResponseException;
+import no.sws.client.SwsParsingServerResponseException;
 import no.sws.client.SwsRequiredInvoiceValueException;
+import no.sws.recipient.RecipientCategory;
+import no.sws.recipient.RecipientCategoryFactory;
+import no.sws.util.XmlUtils;
 
 /**
- * @author Pål Orby, Balder Programvare AS
+ * @author PŒl Orby, Balder Programvare AS
  */
 public class RecipientHelper {
 
@@ -98,6 +106,157 @@ public class RecipientHelper {
 		}
 
 		return result;
+	}
+	
+	public static Recipient mapRecipientResponseToRecipient(String response) throws JDOMException, IOException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException {
+		
+		if(response == null || response.trim().length() == 0) {
+			throw new IllegalArgumentException("Param response can't be null or an zero length String");
+		}
+		
+		// convert response to XML (JDom)
+		Document xml = XmlUtils.string2Xml(response);
+		
+		Element rootElement = xml.getRootElement();
+		
+		if(rootElement != null && rootElement.getName().equals("recipients") && rootElement.getChildren("recipient").size() > 0) {
+
+			// get the first, and only, recipient element 
+			Element recipientElement = rootElement.getChild("recipient");
+					
+			return recipientElem2Recipient(recipientElement);
+		}
+		else {
+			throw new SwsParsingServerResponseException(response);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Recipient> mapRecipientResponseToRecipientList(String response) throws SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException, JDOMException, IOException {
+
+		if(response == null || response.trim().length() == 0) {
+			throw new IllegalArgumentException("Param response can't be null or an zero length String");
+		}
+		
+		// convert response to XML (JDom)
+		Document xml = XmlUtils.string2Xml(response);
+		
+		Element rootElement = xml.getRootElement();
+		
+		if(rootElement != null && rootElement.getName().equals("recipients") && rootElement.getChildren("recipient").size() > 0) {
+
+			// get all child recipient elements
+			List<Element> recipientElements = rootElement.getChildren("recipient");
+			
+			List<Recipient> result = new LinkedList<Recipient>();
+				
+			for(Element currentRecipientElement : recipientElements) {
+				result.add(recipientElem2Recipient(currentRecipientElement));
+			}
+			
+			return result;
+		}
+		else {
+			throw new SwsParsingServerResponseException(response);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<RecipientCategory> mapRecipientCategoriesResponseToRecipientCategoryList(String response) throws JDOMException, IOException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException {
+
+		if(response == null || response.trim().length() == 0) {
+			throw new IllegalArgumentException("Param response can't be null or an zero length String");
+		}
+		
+		// convert response to XML (JDom)
+		Document xml = XmlUtils.string2Xml(response);
+		
+		Element rootElement = xml.getRootElement();
+		
+		if(rootElement != null && rootElement.getName().equals("categories") && rootElement.getChildren("category").size() > 0) {
+			
+			// get all child category elements
+			List<Element> categoryElements = rootElement.getChildren("category");
+			
+			List<RecipientCategory> result = new LinkedList<RecipientCategory>();
+			
+			for(Element currentCategoryElement : categoryElements) {
+				
+				String categoryName = getChildElementValue(currentCategoryElement, "name", Boolean.TRUE);
+				Integer recipientCount = Integer.parseInt(getChildElementValue(currentCategoryElement, "recipientCount", Boolean.TRUE));
+				
+				result.add(RecipientCategoryFactory.getInstance(categoryName, recipientCount));
+			}
+			
+			return result;
+		}
+		else {
+			throw new SwsParsingServerResponseException(response);
+		}
+	}
+	
+	private static Recipient recipientElem2Recipient(Element recipientElement) throws SwsMissingRequiredElementInResponseException {
+		
+		if(recipientElement == null || recipientElement.getChildren().size() == 0) {
+			throw new IllegalArgumentException("Param recipientElement can't be null or an Element without any child elements");
+		}
+		
+		Recipient result = RecipientFactory.getInstance();
+		
+		// required values
+		result.setName(getChildElementValue(recipientElement, "name", Boolean.TRUE));
+		result.setZip(getChildElementValue(recipientElement, "zip", Boolean.TRUE));
+		result.setCity(getChildElementValue(recipientElement, "city", Boolean.TRUE));
+		
+		// optional values
+		Element optionalElement = recipientElement.getChild("optional");
+		
+		if(optionalElement != null && optionalElement.getChildren().size() > 0) {
+			
+			result.setAddress1(getChildElementValue(optionalElement, "address1", Boolean.FALSE));
+			result.setAddress2(getChildElementValue(optionalElement, "address2", Boolean.FALSE));
+			result.setCountry(getChildElementValue(optionalElement, "country", Boolean.FALSE));
+			result.setRecipientNo(getChildElementValue(optionalElement, "recipientNo", Boolean.FALSE));
+			result.setPhone(getChildElementValue(optionalElement, "phone", Boolean.FALSE));
+			result.setMobile(getChildElementValue(optionalElement, "mobile", Boolean.FALSE));
+			result.setFax(getChildElementValue(optionalElement, "fax", Boolean.FALSE));
+			result.setEmail(getChildElementValue(optionalElement, "email", Boolean.FALSE));
+			result.setWeb(getChildElementValue(optionalElement, "web", Boolean.FALSE));
+			result.setCategory(getChildElementValue(optionalElement, "category", Boolean.FALSE));
+			result.setComment(getChildElementValue(optionalElement, "comment", Boolean.FALSE));
+			result.setCreditDays(getChildElementValue(optionalElement, "creditDays", Boolean.FALSE));
+			result.setOrgNo(getChildElementValue(optionalElement, "orgNo", Boolean.FALSE));
+			result.setPreferredShipment(getChildElementValue(optionalElement, "preferredShipment", Boolean.FALSE));
+			result.setAttachPdf(getChildElementValue(optionalElement, "attachPdf", Boolean.FALSE));
+		}
+		
+		
+		return result;
+	}
+	
+	private static String getChildElementValue(Element element, String name, Boolean required) throws SwsMissingRequiredElementInResponseException {
+		
+		Element child = element.getChild(name);
+	
+		if(child == null) {
+			
+			if(required) {
+				throw new SwsMissingRequiredElementInResponseException("name", "recipient");
+			}
+			else {
+				return null;
+			}
+		}
+		else {
+			String result = child.getTextNormalize();
+			
+			if(result.trim().length() == 0) {
+				return null;
+			}
+			else {
+				return result;
+			}
+		}
 	}
 
 	/**

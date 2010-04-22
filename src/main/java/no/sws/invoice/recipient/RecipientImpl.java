@@ -21,6 +21,16 @@ public class RecipientImpl implements Recipient {
 	private String city;
 	private String country;
 	private String email;
+	private String attachPdf;
+	private String category;
+	private String comment;
+	private String creditDays;
+	private String fax;
+	private String mobile;
+	private String orgNo;
+	private String phone;
+	private String preferredShipment;
+	private String web;
 
 	/*
 	 * (non-Javadoc)
@@ -160,33 +170,135 @@ public class RecipientImpl implements Recipient {
 		this.country = country;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see no.sws.recipient.Recipient#getEmail(java.lang.String)
+	 */
 	public String getEmail() {
 
 		return this.email;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see no.sws.recipient.Recipient#setEmail(java.lang.String)
+	 */
 	public void setEmail(final String email) {
 
 		this.email = email;
 	}
 
-	/**
-	 * Constructs a <code>String</code> with all attributes in name=value format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
-	 */
+	public String getAttachPdf() {
+
+		return this.attachPdf;
+	}
+
+	public void setAttachPdf(String attachPdf) {
+
+		this.attachPdf = attachPdf;
+
+	}
+
+	public String getCategory() {
+
+		return this.category;
+	}
+
+	public void setCategory(String category) {
+
+		this.category = category;
+	}
+
+	public String getComment() {
+
+		return this.comment;
+	}
+
+	public void setComment(String comment) {
+
+		this.comment = comment;
+	}
+
+	public String getCreditDays() {
+
+		return this.creditDays;
+	}
+
+	public void setCreditDays(String creditDays) {
+
+		this.creditDays = creditDays;
+	}
+
+	public String getFax() {
+
+		return this.fax;
+	}
+
+	public void setFax(String fax) {
+
+		this.fax = fax;
+	}
+
+	public String getMobile() {
+
+		return this.mobile;
+	}
+
+	public void setMobile(String mobile) {
+
+		this.mobile = mobile;
+	}
+
+	public String getOrgNo() {
+
+		return this.orgNo;
+	}
+
+	public void setOrgNo(String orgNo) {
+
+		this.orgNo = orgNo;
+	}
+
+	public String getPhone() {
+
+		return this.phone;
+	}
+
+	public void setPhone(String phone) {
+
+		this.phone = phone;
+	}
+
+	public String getPreferredShipment() {
+
+		return this.preferredShipment;
+	}
+
+	public void setPreferredShipment(String preferredShipment) {
+
+		this.preferredShipment = preferredShipment;
+	}
+
+	public String getWeb() {
+
+		return this.web;
+	}
+
+	public void setWeb(String web) {
+
+		this.web = web;
+	}
+
 	@Override
 	public String toString() {
 
-		final String ln = "\n";
-
-		final StringBuilder retValue = new StringBuilder();
-
-		retValue.append("RecipientImpl ( ").append(super.toString()).append(ln).append("recipientNo=").append(this.recipientNo).append(ln).append(
-				"name=").append(this.name).append(ln).append("address1=").append(this.address1).append(ln).append("address2=").append(this.address2)
-				.append(ln).append("zip=").append(this.zip).append(ln).append("city=").append(this.city).append(ln).append("country=").append(
-						this.country).append(ln).append("email=").append(this.email).append(ln).append(" )");
-
-		return retValue.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append("RecipientImpl [address1=").append(this.address1).append(", address2=").append(this.address2).append(", attachPdf=").append(
+				this.attachPdf).append(", category=").append(this.category).append(", city=").append(this.city).append(", comment=").append(
+				this.comment).append(", country=").append(this.country).append(", creditDays=").append(this.creditDays).append(", email=").append(
+				this.email).append(", fax=").append(this.fax).append(", mobile=").append(this.mobile).append(", name=").append(this.name).append(
+				", orgNo=").append(this.orgNo).append(", phone=").append(this.phone).append(", preferredShipment=").append(this.preferredShipment)
+				.append(", recipientNo=").append(this.recipientNo).append(", web=").append(this.web).append(", zip=").append(this.zip).append("]");
+		return builder.toString();
 	}
 }

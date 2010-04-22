@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 PŒl Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -9,7 +9,7 @@
 package no.sws.invoice.recipient;
 
 /**
- * @author Pål Orby, Balder Programvare AS
+ * @author PŒl Orby, Balder Programvare AS
  */
 public interface Recipient {
 
@@ -61,5 +61,25 @@ public interface Recipient {
 
 	public String getEmail();
 
-	public void setEmail(String elementValue);
+	public void setEmail(String email);
+
+	public void setPhone(String phone);
+
+	public void setMobile(String mobile);
+
+	public void setFax(String fax);
+
+	public void setWeb(String web);
+
+	public void setCategory(String category);
+
+	public void setComment(String comment);
+
+	public void setCreditDays(String creditDays);
+
+	public void setOrgNo(String orgNo);
+
+	public void setPreferredShipment(String preferredShipment);
+
+	public void setAttachPdf(String attachPdf);
 }
