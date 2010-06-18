@@ -396,7 +396,7 @@ public class InvoiceHelper extends SwsHelper {
 
 			// add creditedId if credit invoice
 			if(invoice.getInvoiceType().equals(InvoiceType.credit)) {
-				invoice.setCreditedId(Integer.parseInt(getElementValue(optionalElement, "creditedId", true)));
+				invoice.setCreditedInvoiceNo(Integer.parseInt(getElementValue(optionalElement, "creditedId", true)));
 			}
 
 			invoice.setInvoiceNo(Integer.parseInt(getElementValue(optionalElement, "invoiceNo", true)));

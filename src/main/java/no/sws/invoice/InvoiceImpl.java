@@ -49,7 +49,7 @@ public class InvoiceImpl implements Invoice {
 	private BigDecimal interestRate;
 	private String clientId;
 	private Shipment shipment;
-	private Integer creditedId;
+	private Integer creditedInvoiceNo;
 
 	/**
 	 * No parameter constructor setting invoiceType to InvoiceType.ordinary
@@ -499,13 +499,13 @@ public class InvoiceImpl implements Invoice {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.CreditInvoice#getCreditedId()
 	 */
-	public Integer getCreditedId() {
+	public Integer getCreditedInvoiceNo() {
 
 		if(this.invoiceType == InvoiceType.credit) {
-			return this.creditedId;
+			return this.creditedInvoiceNo;
 		}
 		else {
-			throw new IllegalStateException("creditedId is set when invoice.invoiceType == InvoiceType.credit");
+			throw new IllegalStateException("creditedInvoiceNo is only set when invoice.invoiceType == InvoiceType.credit");
 		}
 
 	}
@@ -514,21 +514,21 @@ public class InvoiceImpl implements Invoice {
 	 * (non-Javadoc)
 	 * @see no.sws.invoice.CreditInvoice#setCreditedId(java.lang.Integer)
 	 */
-	public void setCreditedId(final Integer creditedId) {
+	public void setCreditedInvoiceNo(final Integer creditedInvoiceNo) {
 
 		if(this.invoiceType == InvoiceType.credit) {
 
-			if(creditedId == null) {
-				throw new IllegalArgumentException("Param creditedId can't be null");
+			if(creditedInvoiceNo == null) {
+				throw new IllegalArgumentException("Param creditedInvoiceNo can't be null");
 			}
 
-			if(creditedId <= 0) {
-				throw new IllegalArgumentException("Param creditedId can't be less than zero or zero");
+			if(creditedInvoiceNo <= 0) {
+				throw new IllegalArgumentException("Param creditedInvoiceNo can't be less than zero or zero");
 			}
-			this.creditedId = creditedId;
+			this.creditedInvoiceNo = creditedInvoiceNo;
 		}
 		else {
-			throw new IllegalStateException("creditedId can only be set when invoice.invoiceType == InvoiceType.credit");
+			throw new IllegalStateException("creditedInvoiceNo can only be set when invoice.invoiceType == InvoiceType.credit");
 		}
 	}
 
@@ -554,7 +554,7 @@ public class InvoiceImpl implements Invoice {
 						this.orgNrSuffix).append(ln).append("accountNo=").append(this.accountNo).append(ln).append("orgNo=").append(this.orgNo)
 				.append(ln).append("dunningFee=").append(this.dunningFee).append(ln).append("interestRate=").append(this.interestRate).append(ln)
 				.append("clientId=").append(this.clientId).append(ln).append("shipment=").append(this.shipment).append(ln).append("creditedId=")
-				.append(this.creditedId).append(ln).append(" )");
+				.append(this.creditedInvoiceNo).append(ln).append(" )");
 
 		return retValue.toString();
 	}

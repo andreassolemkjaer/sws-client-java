@@ -132,9 +132,9 @@ public interface Invoice {
 	/**
 	 * Only when invoiceType is credit.
 	 * 
-	 * @return The id (invoiceNo) to credit.
+	 * @return The invoiceNo to credit.
 	 */
-	public Integer getCreditedId();
+	public Integer getCreditedInvoiceNo();
 
 	/**
 	 * Only when invoiceType is credit. Specify which invoice to credit.
@@ -142,8 +142,8 @@ public interface Invoice {
 	 * This value must be set before sending it to the server
 	 * </p>
 	 * 
-	 * @param creditedId The id (invoiceNo) for an existing invoice.
+	 * @param creditedInvoiceNo The invoiceNo for an existing invoice to credit.
 	 * @throws IllegalArgumentException Thrown if creditedId is null, zero or less than zero.
 	 */
-	public void setCreditedId(Integer creditedId);
+	public void setCreditedInvoiceNo(Integer creditedInvoiceNo);
 }

@@ -45,7 +45,7 @@ public class InvoiceFactory {
 
 		final Invoice result = new InvoiceImpl();
 		result.setInvoiceType(InvoiceType.credit);
-		result.setCreditedId(invoiceToCredit);
+		result.setCreditedInvoiceNo(invoiceToCredit);
 		return result;
 	}
 }

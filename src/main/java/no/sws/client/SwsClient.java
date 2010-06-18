@@ -311,8 +311,8 @@ public class SwsClient {
 				optionalElement.addContent(new Element("invoiceType").setText(InvoiceType.credit.name()));
 
 				// add <creditedId>x</creditedId>
-				if(currentInvoice.getCreditedId() != null) {
-					optionalElement.addContent(new Element("creditedId").setText(currentInvoice.getCreditedId().toString()));
+				if(currentInvoice.getCreditedInvoiceNo() != null) {
+					optionalElement.addContent(new Element("creditedId").setText(currentInvoice.getCreditedInvoiceNo().toString()));
 				}
 				else {
 					throw new SwsMissingCreditedIdException(currentInvoice);
