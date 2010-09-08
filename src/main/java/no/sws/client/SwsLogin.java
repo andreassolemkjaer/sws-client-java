@@ -17,7 +17,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
- * @author Pål Orby, Balder Programvare AS
+ * @author P\u00E8l Orby, Balder Programvare AS @ Deprecated - SendRegning Web
+ *         Services uses BASIC authentication and this was for the FORM
+ *         authentication.
  */
 public class SwsLogin {
 
@@ -34,19 +36,23 @@ public class SwsLogin {
 	/**
 	 * For internal testing
 	 * 
-	 * @param domainName - the domain name of the url, e.g. "www.sendregning.no" or "localhost:8443" for testing locally
+	 * @param domainName
+	 *            - the domain name of the url, e.g. "www.sendregning.no" or
+	 *            "localhost:8443" for testing locally
 	 */
 	public SwsLogin(final String domainName) {
 
-		if(domainName == null || domainName.trim().length() == 0) {
-			throw new IllegalArgumentException("Parameter domainName can't be null or an empty String");
+		if (domainName == null || domainName.trim().length() == 0) {
+			throw new IllegalArgumentException(
+					"Parameter domainName can't be null or an empty String");
 		}
 
 		SwsLogin.LOGIN_URL = "https://" + domainName + "/sws/";
 		this.FORM_POST_URL = "https://" + domainName + "/sws/j_security_check";
 	}
 
-	public HttpClient login(final String username, final String password) throws HttpException, IOException {
+	public HttpClient login(final String username, final String password)
+			throws HttpException, IOException {
 
 		// HTTP-klienten som logger seg på SWS
 		final HttpClient httpClient = new HttpClient();
@@ -71,25 +77,31 @@ public class SwsLogin {
 		final String formResponse = formPost.getResponseBodyAsString();
 
 		// Utskrift av responskoden og responsen
-		System.out.println("Response code=" + formResponseCode + "\n" + formResponse);
+		System.out.println("Response code=" + formResponseCode + "\n"
+				+ formResponse);
 
-		// serveren vil videresende oss, så vi henter ut url'en fra respons headeren
+		// serveren vil videresende oss, så vi henter ut url'en fra respons
+		// headeren
 		final Header videreSend = formPost.getResponseHeader("Location");
 		formPost.releaseConnection();
 
-		if(videreSend == null || formResponse.contains(SwsLogin.LOGIN_ERROR_STRING)) {
+		if (videreSend == null
+				|| formResponse.contains(SwsLogin.LOGIN_ERROR_STRING)) {
 
-			// vi klarte ikke å logge på SWS, her burde din klient kaste en exception
+			// vi klarte ikke å logge på SWS, her burde din klient kaste en
+			// exception
 			return null;
 		}
 
-		// dette er ikke nødvendig for å logge på, her holder det å returnere http-klienten
+		// dette er ikke nødvendig for å logge på, her holder det å returnere
+		// http-klienten
 		final GetMethod redirect = new GetMethod(videreSend.getValue());
 		redirect.setFollowRedirects(true);
 		final int redirectResponseCode = httpClient.executeMethod(redirect);
 		final String redirectResponse = redirect.getResponseBodyAsString();
 
-		System.out.println("Redirect response code=" + redirectResponseCode + "\n" + redirectResponse);
+		System.out.println("Redirect response code=" + redirectResponseCode
+				+ "\n" + redirectResponse);
 
 		return httpClient;
 	}

@@ -11,25 +11,10 @@ package no.sws.client;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.Format;
 
 import no.sws.balance.Balance;
 import no.sws.balance.BalanceHelper;
@@ -42,6 +27,25 @@ import no.sws.recipient.RecipientCategory;
 import no.sws.salesledger.SalesledgerEntry;
 import no.sws.salesledger.SalesledgerHelper;
 import no.sws.util.XmlUtils;
+
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthPolicy;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.output.Format;
 
 /**
  * @author Pål Orby, Balder Programvare AS
@@ -60,7 +64,6 @@ public class SwsClient {
 	private static NameValuePair[] LIST_INVOICE_HTTP_PARAMS;
 	private static NameValuePair[] SEND_INVOICE_HTTP_PARAMS;
 
-	private final SwsLogin login;
 	private final HttpClient httpClient;
 
 	/**
@@ -71,12 +74,12 @@ public class SwsClient {
 	 */
 	public SwsClient(final String username, final String password) throws HttpException, IOException {
 
-		this.BUTLER_PATH = "https://www.sendregning.no/sws/butler.do";
+		this.BUTLER_PATH = "https://www.sendregning.no/ws/butler.do";
 
 		setTest(Boolean.TRUE);
 
-		this.login = new SwsLogin();
-		this.httpClient = this.login.login(username, password);
+		// create a new HttpClient
+		this.httpClient = initHttpClient(username, password);
 
 		assert this.httpClient != null;
 	}
@@ -90,15 +93,39 @@ public class SwsClient {
 	 */
 	public SwsClient(final String username, final String password, final String domainName) throws HttpException, IOException {
 
-		this.BUTLER_PATH = "https://" + domainName + "/sws/butler.do";
+		this.BUTLER_PATH = "https://" + domainName + "/ws/butler.do";
 
 		setTest(Boolean.TRUE);
 
-		// logger på SWS
-		this.login = new SwsLogin(domainName);
-		this.httpClient = this.login.login(username, password);
+		// create a new HttpClient
+		this.httpClient = initHttpClient(username, password);
 
 		assert this.httpClient != null;
+	}
+	
+	/**
+	 * Initialize a new HttpClient, storing the credentials for the client
+	 * @param username The username to log on to SendRegning Web Services
+	 * @param password The password to log on to SendRegning Web Services
+	 * @return
+	 */
+	private HttpClient initHttpClient(final String username, final String password) {
+		
+		HttpClient result = new HttpClient();
+		
+		List<String> authPrefs = new ArrayList<String>(1);
+		authPrefs.add(AuthPolicy.BASIC);
+		// This will exclude the NTLM and DIGEST authentication scheme
+		result.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);
+		
+		// Preemptive authentication can be enabled within HttpClient. In this mode HttpClient will send the basic authentication response even before the
+		// server gives an unauthorized response in certain situations, thus reducing the overhead of making the connection.
+		result.getParams().setAuthenticationPreemptive(true);
+
+		// set credentials
+		result.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
+		
+		return result;
 	}
 
 	/**
@@ -128,7 +155,7 @@ public class SwsClient {
 
 		// HTTP POST kommando for å hente ut alle regninger
 		final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, SwsClient.SELECT_All_INVOICES_XML);
-
+		
 		// utfører HTTP POST kommandoen, får responskoden tilbake
 		final int responseCode = this.httpClient.executeMethod(getInvoices);
 
@@ -443,7 +470,7 @@ public class SwsClient {
 			throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
 		}
 
-		final GetMethod salesledgerEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=salesledger&recipientNo=" + recipientNo);
+		final GetMethod salesledgerEntries = new GetMethod(this.BUTLER_PATH + "?action=select&type=salesledger&recipientNo=" + recipientNo);
 
 		try {
 			final Integer responseCode = this.httpClient.executeMethod(salesledgerEntries);
@@ -481,7 +508,7 @@ public class SwsClient {
 			throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
 		}
 
-		final GetMethod balanceEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=balance&recipientNo=" + recipientNo);
+		final GetMethod balanceEntries = new GetMethod(this.BUTLER_PATH + "?action=select&type=balance&recipientNo=" + recipientNo);
 
 		try {
 			final Integer responseCode = this.httpClient.executeMethod(balanceEntries);
@@ -515,7 +542,7 @@ public class SwsClient {
 
 	public Map<Integer, Balance> getBalanceForAllRecipients() throws SwsParsingServerResponseException, IOException, SwsResponseCodeException {
 
-		final GetMethod balanceEntries = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=balance");
+		final GetMethod balanceEntries = new GetMethod(this.BUTLER_PATH + "?action=select&type=balance");
 
 		try {
 			final Integer responseCode = this.httpClient.executeMethod(balanceEntries);
@@ -549,7 +576,7 @@ public class SwsClient {
 	
 	public List<Recipient> getAllRecipients() throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 		
-		final GetMethod getMethod = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=recipient");
+		final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipient");
 		
 		try {
 			
@@ -597,7 +624,7 @@ public class SwsClient {
 			throw new IllegalArgumentException("Param recipientNo can't be null or an empty String");
 		}
 		
-		final GetMethod getMethod = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=recipient&recipientNo=" + recipientNo.trim());
+		final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipient&recipientNo=" + recipientNo.trim());
 		
 		try {
 			
@@ -638,7 +665,7 @@ public class SwsClient {
 		}
 		
 		
-		final GetMethod getMethod = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=recipient&query=" + recipientName.trim());
+		final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipient&query=" + recipientName.trim());
 		
 		try {
 			
@@ -676,7 +703,7 @@ public class SwsClient {
 	public List<RecipientCategory> getAllRecipientCategories() throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 
 		
-		final GetMethod getMethod = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=recipientCategories");
+		final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipientCategories");
 		
 		try {
 			
@@ -719,7 +746,7 @@ public class SwsClient {
 		}
 		
 		
-		final GetMethod getMethod = new GetMethod(SwsLogin.LOGIN_URL + "butler.do?action=select&type=recipient&category=" + recipientCategoryName.trim());
+		final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipient&category=" + recipientCategoryName.trim());
 		
 		try {
 			
@@ -756,6 +783,8 @@ public class SwsClient {
 	private PostMethod createPostMethod(final NameValuePair[] httpParams, final String swsXml) {
 
 		final PostMethod result = new PostMethod(this.BUTLER_PATH);
+		
+		// set the given http params on PostMethod
 		result.setQueryString(httpParams);
 
 		// legger til en "fil" Dette er egentlig bare en String som ligger lagret i minne.
