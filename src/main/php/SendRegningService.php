@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/>
+	Copyright (C) 2009 PÃ¥l Orby, SendRegning AS. <http://www.sendregning.no/>
 	
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,11 +32,11 @@ class SendRegningService {
 	/*
 	 * Get all SendRegning.no constants, see implemtation guide for more info.
 	 */
-	public function getConstants() {
+	public function getConstants(&$returnFormat='xml') {
 		
-		echo "Getting constants from SWS\n";
+		echo "Getting constants from SWS in XML\n";
 		
-		$status = $this->sr->get("?action=select&type=constant", $result);
+		$status = $this->sr->get("?action=select&type=constant", $result, &$returnFormat);
 		
 		return $result;
 	}
@@ -44,13 +44,13 @@ class SendRegningService {
 	/*
 	 * Get last invoice sent from my account
 	 */
-	public function getLastInvoice() {
+	public function getLastInvoice(&$returnFormat='xml') {
 	
-		echo "Getting the last invoice sent from my account\n";
+		echo "Getting the last invoice sent from my account in JSON\n";
 		
 		$xml = "<select>LAST</select>";
 		
-		$status = $this->sr->post("select", "invoice", $xml, $result);
+		$status = $this->sr->post("select", "invoice", $xml, $result, &$returnFormat);
 
 		return $result;
 	}
