@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/>
+	Copyright (C) 2009 PÃ¥l Orby, SendRegning AS. <http://www.sendregning.no/>
 	
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,13 +30,15 @@ include ('SendRegningService.php');
 	}
 
 	// create an instance of SendRegning
-	$service = new SendRegningService($argv[1], $argv[2], $debug);
+	$sendregning = new SendRegningService($argv[1], $argv[2], $debug);
 
-	// get the constants
-	$constants = $service->getConstants();
+
+	// get the constants in xml
+	$constants = $sendregning->getConstants();
 	echo $constants;
 	
-	// get the last invoice
-	$lastInvoice = $service->getLastInvoice();
+	// get the last invoice in JSON
+	$returnFormat='json';
+	$lastInvoice = $sendregning->getLastInvoice($returnFormat);
 	echo $lastInvoice;
 ?>
