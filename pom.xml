@@ -7,15 +7,15 @@
 	<packaging>jar</packaging>
 	<name>SWS Client</name>
 	<organization>
-		<name>Balder Programvare AS</name>
-		<url>http://www.balder.no/</url>
+		<name>SendRegning AS</name>
+		<url>http://www.sendregning.no/</url>
 	</organization>
 	<developers>
 		<developer>
 			<name>Pål Orby</name>
 			<email>orby at sendregning.no</email>
 			<timezone>+1</timezone>
-			<organization>Balder Programvare AS</organization>
+			<organization>SendRegning AS</organization>
 		</developer>
 	</developers>
 	<scm>
