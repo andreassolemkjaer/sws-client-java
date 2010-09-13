@@ -1,0 +1,12 @@
+Java
+
+mvn clean install
+
+PHP
+
+cd /src/main/php
+php SendRegningClient.php email password
+
+Perl
+
+cd /src/main/perl (this client is implemented against our old form based authentication SWS. Form based authentication will be ended in late 2011)
