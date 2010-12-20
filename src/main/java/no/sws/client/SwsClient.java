@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 Pï¿½l Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -48,7 +48,7 @@ import org.jdom.JDOMException;
 import org.jdom.output.Format;
 
 /**
- * @author Pål Orby, Balder Programvare AS
+ * @author PÃ¥l Orby, Balder Programvare AS
  */
 public class SwsClient {
 
@@ -151,12 +151,12 @@ public class SwsClient {
 		}
 	}
 
-	public List<Invoice> getAllInvoices() throws HttpException, IOException {
+	public List<Invoice> getAllInvoices() throws HttpException, IOException, SwsResponseCodeException {
 
-		// HTTP POST kommando for å hente ut alle regninger
+		// HTTP POST kommando for ï¿½ hente ut alle regninger
 		final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, SwsClient.SELECT_All_INVOICES_XML);
 		
-		// utfører HTTP POST kommandoen, får responskoden tilbake
+		// utfÃ¸rer HTTP POST kommandoen, fÃ¥r responskoden tilbake
 		final int responseCode = this.httpClient.executeMethod(getInvoices);
 
 		if(log.isDebugEnabled()) {
@@ -165,8 +165,9 @@ public class SwsClient {
 		}
 
 		if(responseCode != 200) {
-			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + getInvoices.getResponseBodyAsString());
-			System.exit(responseCode);
+			String responseBodyAsString = getInvoices.getResponseBodyAsString();
+			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
+			throw new SwsResponseCodeException(responseCode, responseBodyAsString);
 		}
 
 		final String response = getInvoices.getResponseBodyAsString();
@@ -193,7 +194,7 @@ public class SwsClient {
 		}
 	}
 
-	public List<Invoice> getInvoices(final Integer... invoiceNumbers) throws HttpException, IOException {
+	public List<Invoice> getInvoices(final Integer... invoiceNumbers) throws HttpException, IOException, SwsResponseCodeException {
 
 		if(invoiceNumbers == null || invoiceNumbers.length <= 0) {
 			throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or an empty array.");
@@ -208,15 +209,16 @@ public class SwsClient {
 
 		xml.append("</invoiceNumbers></select>");
 
-		// HTTP POST kommando for å hente ut alle regninger
+		// HTTP POST kommando for Ã¥ hente ut alle regninger
 		final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-		// utfører HTTP POST kommandoen, får responskoden tilbake
+		// utfÃ¸rer HTTP POST kommandoen, fÃ¥r responskoden tilbake
 		final int responseCode = this.httpClient.executeMethod(getInvoices);
 
 		if(responseCode != 200) {
-			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + getInvoices.getResponseBodyAsString());
-			System.exit(responseCode);
+			String responseBodyAsString = getInvoices.getResponseBodyAsString();
+			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
+			throw new SwsResponseCodeException(responseCode, responseBodyAsString);
 		}
 
 		final String response = getInvoices.getResponseBodyAsString();
@@ -401,7 +403,7 @@ public class SwsClient {
 		return result;
 	}
 
-	public byte[] getPdfInvoices(final Integer... invoiceNumbers) throws HttpException, IOException {
+	public byte[] getPdfInvoices(final Integer... invoiceNumbers) throws HttpException, IOException, SwsResponseCodeException {
 
 		if(invoiceNumbers == null || invoiceNumbers.length <= 0) {
 			throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or an empty array.");
@@ -416,15 +418,16 @@ public class SwsClient {
 
 		xml.append("</invoiceNumbers><format>pdf</format></select>");
 
-		// HTTP POST kommando for å hente ut alle regninger
+		// HTTP POST kommando for ï¿½ hente ut alle regninger
 		final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-		// utfører HTTP POST kommandoen, får responskoden tilbake
+		// utfï¿½rer HTTP POST kommandoen, fï¿½r responskoden tilbake
 		final int responseCode = this.httpClient.executeMethod(getInvoices);
 
 		if(responseCode != 200) {
-			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + getInvoices.getResponseBodyAsString());
-			System.exit(responseCode);
+			String responseBodyAsString = getInvoices.getResponseBodyAsString();
+			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
+			throw new SwsResponseCodeException(responseCode, responseBodyAsString);
 		}
 
 		final byte[] result = getInvoices.getResponseBody();
@@ -435,7 +438,7 @@ public class SwsClient {
 
 	}
 
-	public byte[] getJpgInvoice(final Integer invoiceNumber) throws HttpException, IOException {
+	public byte[] getJpgInvoice(final Integer invoiceNumber) throws HttpException, IOException, SwsResponseCodeException {
 
 		if(invoiceNumber == null || invoiceNumber <= 0) {
 			throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or less or equal to zero.");
@@ -445,15 +448,16 @@ public class SwsClient {
 		xml.append("<invoiceNumber>").append(invoiceNumber).append("</invoiceNumber>");
 		xml.append("</invoiceNumbers><format>jpg</format></select>");
 
-		// HTTP POST kommando for å hente ut alle regninger
+		// HTTP POST kommando for ï¿½ hente ut alle regninger
 		final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-		// utfører HTTP POST kommandoen, får responskoden tilbake
+		// utfï¿½rer HTTP POST kommandoen, fï¿½r responskoden tilbake
 		final int responseCode = this.httpClient.executeMethod(getInvoices);
 
 		if(responseCode != 200) {
-			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + getInvoices.getResponseBodyAsString());
-			System.exit(responseCode);
+			String responseBodyAsString = getInvoices.getResponseBodyAsString();
+			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
+			throw new SwsResponseCodeException(responseCode, responseBodyAsString);
 		}
 
 		final byte[] result = getInvoices.getResponseBody();
@@ -817,7 +821,15 @@ public class SwsClient {
 	public static void main(final String[] args) throws HttpException, IOException {
 
 		final SwsClient swsClient = new SwsClient(args[0], args[1]);
-		final List<Invoice> invoices = swsClient.getAllInvoices();
+		
+			List<Invoice> invoices = null;
+			try {
+				invoices = swsClient.getAllInvoices();
+			}
+			catch(SwsResponseCodeException e) {
+				System.err.println(e.getMessage());
+				System.exit(e.getResponseCode());
+			}
 
 		System.out.println(invoices);
 	}
