@@ -36,9 +36,6 @@ class SendRegningLogic {
 	// sws butler name
 	private $SWS_BUTLER_NAME="butler.do";
 	
-	// sws butler url (defined in constructor)
-	private $SWS_BUTLER_URL;
-
 	// http client
 	private $client;
 	
@@ -59,69 +56,86 @@ class SendRegningLogic {
 		// prepare the login url		
 		$authentication=(strlen($username) ? UrlEncode($username).":".UrlEncode($password)."@" : "");
 
-		$this->SWS_URL=$this->PROTOCOL . $authentication . $this->SERVER_NAME . $this->SWS_PATH;
-		$this->SWS_BUTLER_URL=$this->SWS_URL . $this->SWS_BUTLER_NAME;
+		$this->SWS_URL=$this->PROTOCOL . $authentication . $this->SERVER_NAME . $this->SWS_PATH . $this->SWS_BUTLER_NAME;
 		
 		if($debug >= 1) {
 		
 			echo "SWS_URL=" . $this->SWS_URL . "\n";
-			echo "SWS_BUTLER_URL=" . $this->SWS_BUTLER_URL . "\n";
 		}
 		
 		$this->client = new http_class();
+		$this->client->prefer_curl=1;
 		$this->client->user_agent='SWS PHP Client - (httpclient - http://www.phpclasses.org/httpclient $Revision: 1.76 $';
 		$this->client->follow_redirect=1;
-		$this->client->debug=$httpClientDebug;
 		$this->client->authentication_mechanism='Basic';
+		
+		if($debug >= 1) {
+			$this->client->debug=1;
+		}
 	}
 	
 	public function get($parameters, &$result, &$acceptHeader='xml') {
 
 		if($this->debug >= 1) {
 			echo "Inside get(...), acceptHeader=" . $acceptHeader ."\n";
-			echo "GET: " . $this->SWS_BUTLER_URL . $parameters . "\n";
-			echo "\n*** Stored cookies ***\n";
-			print_r($this->client->cookies);
+			echo "GET: " . $this->SWS_URL . $parameters . "\n";
 		}
 		
-		// post with multipart/form-data, not application/x-www-form-urlencoded
+		// do not force multipart for get requests
 		$this->client->force_multipart_form_post=0;
 
 		// clear the arguments array
 		$arguments = array();
 
-		// generate request
-		$this->client->GetRequestArguments($this->SWS_BUTLER_URL . $parameters, $arguments);
+		// get request
 		$arguments["RequestMethod"]="GET";
-		
+		$this->client->request_method="GET";
+
 		// xml or json?
 		if($acceptHeader === 'json') {
 			$arguments['Headers']['Accept']='application/json';
 		}
 
 		if($this->debug >= 1) {
-			echo "*** Header arguments - ($url) ***\n";
+			echo "*** Header arguments - ($this->SWS_URL) ***\n";
 			print_r($arguments);
 		}	
 
+		// generate request
+		$this->client->GetRequestArguments($this->SWS_URL . $parameters, $arguments);
+
 		// open connection
-		$this->client->Open($arguments);
+		$error=$this->client->Open($arguments);
+
+		if(!empty($error)) {
+			echo "ERROR: $error\n";
+			return "";
+		}
 
 		// send request
-		$this->client->SendRequest($arguments);
+		$error=$this->client->SendRequest($arguments);
+
+		if(!empty($error)) {
+			echo "ERROR: $error\n";
+			return "";
+		}
 
 		// read and parse the headers (this has to be done, so the cookies get posted back to the server?)
-		$this->client->ReadReplyHeaders($headers);
-		
+		$error=$this->client->ReadReplyHeaders($headers);
+		if(!empty($error)) {
+			echo "ERROR: $error\n";
+			return "";
+		}
+
 		if($this->debug >= 1) {
-			echo "\n*** Response headers - ($url) ***\n";
+			echo "\n*** Response headers - ($this->SWS_URL) ***\n";
 			print_r($headers);
 		}
 
 		$this->client->ReadReplyBody($result, $this->client->content_length);
 		
 		if($this->debug == 2) {
-			echo "\n*** Response body - ($url) ***\n";
+			echo "\n*** Response body - ($this->SWS_URL) ***\n";
 			echo $result . "\n";
 		}
 
@@ -141,15 +155,15 @@ class SendRegningLogic {
 		}
 		
 		if($test) {
-			$url = $this->SWS_BUTLER_URL . "?action=$action&type=$type&test=true";
+			$this->SWS_URL = $this->SWS_URL . "?action=$action&type=$type&test=true";
 		}
 		else {
 			// we have to omitt test=true from the url when we aren't testing the implementation 
-			$url = $this->SWS_BUTLER_URL . "?action=$action&type=$type";
+			$this->SWS_URL = $this->SWS_URL . "?action=$action&type=$type";
 		}
 		
 		if($this->debug >= 1) {
-			echo "Posting to this url: $url\n";	
+			echo "Posting to this url: $this->SWS_URL\n";	
 		}
 
 		// post with multipart/form-data, not application/x-www-form-urlencoded 
@@ -159,7 +173,7 @@ class SendRegningLogic {
 		$arguments = array();
 
 		// generate request
-		$this->client->GetRequestArguments($url, $arguments);
+		$this->client->GetRequestArguments($this->SWS_URL, $arguments);
 		$arguments["RequestMethod"]="POST";
 		
 		// xml or json?
@@ -177,7 +191,7 @@ class SendRegningLogic {
 		);
 		
 		if($this->debug >= 1) {
-			echo "*** Header arguments - ($url) ***\n";
+			echo "*** Header arguments - ($this->SWS_URL) ***\n";
 			print_r($arguments);
 		}	
 
@@ -191,14 +205,14 @@ class SendRegningLogic {
 		$this->client->ReadReplyHeaders($headers);
 		
 		if($this->debug >= 1) {
-			echo "\n*** Response headers - ($url) ***\n";
+			echo "\n*** Response headers - ($this->SWS_URL) ***\n";
 			print_r($headers);
 		}
 
 		$this->client->ReadReplyBody($result, $this->client->content_length);
 		
 		if($this->debug == 2) {
-			echo "\n*** Response body - ($url) ***\n";
+			echo "\n*** Response body - ($this->SWS_URL) ***\n";
 			echo $result;
 		}
 

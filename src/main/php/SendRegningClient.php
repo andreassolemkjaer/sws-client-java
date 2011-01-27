@@ -32,6 +32,7 @@ include ('SendRegningService.php');
 	// create an instance of SendRegning
 	$sendregning = new SendRegningService($argv[1], $argv[2], $debug);
 
+	//$returnFormat='json';
 
 	// get the constants in xml
 	$constants = $sendregning->getConstants();
