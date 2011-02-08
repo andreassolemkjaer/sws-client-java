@@ -1,7 +1,7 @@
 <?php
 /*
 	Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.sendregning.no/>
-	
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -22,65 +22,58 @@ class SendRegningLogic {
 
 	// sws uses https
 	private $PROTOCOL='https://';
-	
+
 	// domain
 	private $SERVER_NAME='www.sendregning.no';
 	//private $SERVER_NAME='localhost:8443'; // for internal use
-	
+
 	// path to sws
 	private $SWS_PATH='/ws/';
-	
+
 	// private sws url (defined in constructor)
 	private $SWS_URL;
-	
+
 	// sws butler name
 	private $SWS_BUTLER_NAME="butler.do";
-	
+
 	// http client
 	private $client;
-	
+
 	// debug 0 = none, 1 = headers and cookies, 2 = same as 1 inclusive response
 	private $debug = 0;
-	
+
 	// XML header
 	private $XML_HEADER="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	// constructor
 	function __construct($username, $password, $debug=0, $httpClientDebug=0) {
-	
-		if($debug >= 1) {
-			echo "Turn on debugging\n";
-			$this->debug = $debug;
-		}
 
-		// prepare the login url		
+		$this->client->debug=$httpClientDebug;
+
+		// prepare the login url
 		$authentication=(strlen($username) ? UrlEncode($username).":".UrlEncode($password)."@" : "");
 
 		$this->SWS_URL=$this->PROTOCOL . $authentication . $this->SERVER_NAME . $this->SWS_PATH . $this->SWS_BUTLER_NAME;
-		
+
 		if($debug >= 1) {
-		
 			echo "SWS_URL=" . $this->SWS_URL . "\n";
 		}
-		
+
 		$this->client = new http_class();
 		$this->client->prefer_curl=1;
 		$this->client->user_agent='SWS PHP Client - (httpclient - http://www.phpclasses.org/httpclient $Revision: 1.76 $';
 		$this->client->follow_redirect=1;
 		$this->client->authentication_mechanism='Basic';
-		
-		if($debug >= 1) {
-			$this->client->debug=1;
-		}
+
 	}
-	
+
 	public function get($parameters, &$result, &$acceptHeader='xml') {
 
 		if($this->debug >= 1) {
 			echo "Inside get(...), acceptHeader=" . $acceptHeader ."\n";
 			echo "GET: " . $this->SWS_URL . $parameters . "\n";
 		}
-		
+
 		// do not force multipart for get requests
 		$this->client->force_multipart_form_post=0;
 
@@ -99,7 +92,7 @@ class SendRegningLogic {
 		if($this->debug >= 1) {
 			echo "*** Header arguments - ($this->SWS_URL) ***\n";
 			print_r($arguments);
-		}	
+		}
 
 		// generate request
 		$this->client->GetRequestArguments($this->SWS_URL . $parameters, $arguments);
@@ -133,19 +126,19 @@ class SendRegningLogic {
 		}
 
 		$this->client->ReadReplyBody($result, $this->client->content_length);
-		
+
 		if($this->debug == 2) {
 			echo "\n*** Response body - ($this->SWS_URL) ***\n";
 			echo $result . "\n";
 		}
 
-		// close connection		
+		// close connection
 		$this->client->Close();
-		
+
 		// return http status code
 		return $this->client->response_status;
 	}
-	
+
 	public function post($action, $type, $xml, &$result, &$acceptHeader='xml', $test=true) {
 
 		if($this->debug >= 1) {
@@ -153,34 +146,34 @@ class SendRegningLogic {
 			echo "\n*** Stored cookies ***\n";
 			print_r($this->client->cookies);
 		}
-		
+
 		if($test) {
-			$this->SWS_URL = $this->SWS_URL . "?action=$action&type=$type&test=true";
+			$url = $this->SWS_URL . "?action=$action&type=$type&test=true";
 		}
 		else {
-			// we have to omitt test=true from the url when we aren't testing the implementation 
-			$this->SWS_URL = $this->SWS_URL . "?action=$action&type=$type";
-		}
-		
-		if($this->debug >= 1) {
-			echo "Posting to this url: $this->SWS_URL\n";	
+			// we have to omitt test=true from the url when we aren't testing the implementation
+			$url = $this->SWS_URL . "?action=$action&type=$type";
 		}
 
-		// post with multipart/form-data, not application/x-www-form-urlencoded 
+		if($this->debug >= 1) {
+			echo "Posting to this url: $url\n";
+		}
+
+		// post with multipart/form-data, not application/x-www-form-urlencoded
 		$this->client->force_multipart_form_post=1;
 
 		// clear the arguments array
 		$arguments = array();
 
 		// generate request
-		$this->client->GetRequestArguments($this->SWS_URL, $arguments);
+		$this->client->GetRequestArguments($url, $arguments);
 		$arguments["RequestMethod"]="POST";
-		
+
 		// xml or json?
 		if($acceptHeader === 'json') {
 			$arguments['Headers']['Accept']='application/json';
 		}
-		
+
 		// this is the "magic" for posting the xml as a multipart/form-data file
 		$arguments["PostFiles"]=array(
 			"xml"=>array(
@@ -189,11 +182,11 @@ class SendRegningLogic {
             "Content-Type"=>"text/xml",
 			)
 		);
-		
+
 		if($this->debug >= 1) {
-			echo "*** Header arguments - ($this->SWS_URL) ***\n";
+			echo "*** Header arguments - ($url) ***\n";
 			print_r($arguments);
-		}	
+		}
 
 		// open connection
 		$this->client->Open($arguments);
@@ -203,22 +196,22 @@ class SendRegningLogic {
 
 		// read and parse the headers (this has to be done, so the cookies get posted back to the server?)
 		$this->client->ReadReplyHeaders($headers);
-		
+
 		if($this->debug >= 1) {
-			echo "\n*** Response headers - ($this->SWS_URL) ***\n";
+			echo "\n*** Response headers - ($url) ***\n";
 			print_r($headers);
 		}
 
 		$this->client->ReadReplyBody($result, $this->client->content_length);
-		
+
 		if($this->debug == 2) {
-			echo "\n*** Response body - ($this->SWS_URL) ***\n";
+			echo "\n*** Response body - ($url) ***\n";
 			echo $result;
 		}
 
-		// close connection		
+		// close connection
 		$this->client->Close();
-		
+
 		// return http status code
 		return $this->client->response_status;
 	}
