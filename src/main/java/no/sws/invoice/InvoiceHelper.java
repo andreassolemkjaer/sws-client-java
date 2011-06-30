@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 PÃ¥l Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -8,18 +8,9 @@
  */
 package no.sws.invoice;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
-
 import no.sws.SwsHelper;
 import no.sws.client.SwsClient;
+import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
 import no.sws.client.SwsMissingRequiredElementInResponseException;
 import no.sws.client.SwsNoInvoiceLinesForInvoiceException;
 import no.sws.client.SwsNoRecipientForInvoiceException;
@@ -35,9 +26,18 @@ import no.sws.invoice.recipient.RecipientHelper;
 import no.sws.invoice.shipment.Shipment;
 import no.sws.invoice.shipment.ShipmentType;
 import no.sws.util.XmlUtils;
+import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.Format;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * @author Pål Orby, Balder Programvare AS
+ * @author Pï¿½l Orby, Balder Programvare AS
  */
 public class InvoiceHelper extends SwsHelper {
 
@@ -196,7 +196,7 @@ public class InvoiceHelper extends SwsHelper {
 
 	/**
 	 * Iterate all invoice elements in the given XML and creates Invoice objects
-	 * 
+	 *
 	 * @param xml
 	 * @return A List with all invoices. If the given XML is null or doesn't contain the <code>&lt;invoices&gt;</code>
 	 *         root element ot no <code>&lt;invoice&gt;</code> elements, an empty list is returned.
@@ -428,4 +428,52 @@ public class InvoiceHelper extends SwsHelper {
 					+ XmlUtils.xmlElement2String(invoiceElement, Format.getPrettyFormat()));
 		}
 	}
+
+    public static InvoiceStatus mapResponseToInvoiceStatus(final Document xml) throws SwsMissingRequiredElementAttributeInResponseException, SwsMissingRequiredElementInResponseException, ParseException {
+
+        InvoiceStatus result = new InvoiceStatus();
+
+        // does the doc have a root element
+        if(xml != null && xml.hasRootElement()) {
+
+            final Element rootElement = xml.getRootElement();
+
+            // is the root element named salesledger
+            if(rootElement.getName().equals("invoice-status")) {
+
+                Element invoiceElement = rootElement.getChild("invoice");
+
+                if(invoiceElement != null) {
+
+                    result.setInvoiceNumber(Integer.valueOf(getElementAttributeValue(invoiceElement, "number", true)));
+                    result.setState(getElementValue(invoiceElement, "state", true));
+
+                    // transfer payment values
+                    Element paymentsElement = invoiceElement.getChild("payments");
+
+                    if(paymentsElement != null) {
+
+                        List<Element> payments = paymentsElement.getChildren("payment");
+
+                        for(Element payment : payments) {
+
+                            InvoiceStatusPayment current = new InvoiceStatusPayment();
+
+                            current.setId(Integer.valueOf(getElementAttributeValue(payment, "id", true)));
+                            current.setDate(stringToDate(getElementValue(payment, "paymentDate", true)));
+                            current.setAmount(new BigDecimal(getElementValue(payment, "amount", true)));
+                            current.setPaymentType(getElementValue(payment, "paymentType", true));
+
+                            result.addPayment(current);
+
+                        }
+                    }
+                }
+
+                // TODO: add history and dunning entries
+            }
+        }
+
+        return result;
+    }
 }
