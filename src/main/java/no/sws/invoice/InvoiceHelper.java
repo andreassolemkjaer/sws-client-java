@@ -37,7 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author P�l Orby, Balder Programvare AS
+ * @author Pål Orby, SendRegning AS
  */
 public class InvoiceHelper extends SwsHelper {
 

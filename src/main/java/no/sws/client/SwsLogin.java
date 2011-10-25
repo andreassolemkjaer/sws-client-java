@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pål Orby, Balder Programvare AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 PÃ¥l Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -17,7 +17,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
- * @author P\u00E8l Orby, Balder Programvare AS @ Deprecated - SendRegning Web
+ * @author PÃ¥l Orby, SendRegning AS @ Deprecated - SendRegning Web
  *         Services uses BASIC authentication and this was for the FORM
  *         authentication.
  */
@@ -54,33 +54,33 @@ public class SwsLogin {
 	public HttpClient login(final String username, final String password)
 			throws HttpException, IOException {
 
-		// HTTP-klienten som logger seg på SWS
+		// HTTP-klienten som logger seg pï¿½ SWS
 		final HttpClient httpClient = new HttpClient();
 
-		// HTTP GET forespørselen etter innloggingsiden
+		// HTTP GET forespï¿½rselen etter innloggingsiden
 		final GetMethod loggInnSide = new GetMethod(SwsLogin.LOGIN_URL);
 		loggInnSide.setFollowRedirects(true);
 		httpClient.executeMethod(loggInnSide);
 		loggInnSide.releaseConnection();
 
-		// Da har vi kommet til innloggingsiden, her må vi fylle inn brukernavn
+		// Da har vi kommet til innloggingsiden, her mï¿½ vi fylle inn brukernavn
 		// og passord
 		final PostMethod formPost = new PostMethod(this.FORM_POST_URL);
 		formPost.addParameter("Referer", SwsLogin.LOGIN_URL);
 		formPost.addParameter("j_username", username);
 		formPost.addParameter("j_password", password);
 
-		// Vi poster formularet og får responskoden tilbake
+		// Vi poster formularet og fï¿½r responskoden tilbake
 		final int formResponseCode = httpClient.executeMethod(formPost);
 
-		// henter også ut selve responsen
+		// henter ogsï¿½ ut selve responsen
 		final String formResponse = formPost.getResponseBodyAsString();
 
 		// Utskrift av responskoden og responsen
 		System.out.println("Response code=" + formResponseCode + "\n"
 				+ formResponse);
 
-		// serveren vil videresende oss, så vi henter ut url'en fra respons
+		// serveren vil videresende oss, sï¿½ vi henter ut url'en fra respons
 		// headeren
 		final Header videreSend = formPost.getResponseHeader("Location");
 		formPost.releaseConnection();
@@ -88,12 +88,12 @@ public class SwsLogin {
 		if (videreSend == null
 				|| formResponse.contains(SwsLogin.LOGIN_ERROR_STRING)) {
 
-			// vi klarte ikke å logge på SWS, her burde din klient kaste en
+			// vi klarte ikke ï¿½ logge pï¿½ SWS, her burde din klient kaste en
 			// exception
 			return null;
 		}
 
-		// dette er ikke nødvendig for å logge på, her holder det å returnere
+		// dette er ikke nï¿½dvendig for ï¿½ logge pï¿½, her holder det ï¿½ returnere
 		// http-klienten
 		final GetMethod redirect = new GetMethod(videreSend.getValue());
 		redirect.setFollowRedirects(true);

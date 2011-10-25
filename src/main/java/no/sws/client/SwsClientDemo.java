@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 PÃ¥l Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -25,12 +25,15 @@ import no.sws.recipient.RecipientCategory;
 import no.sws.salesledger.SalesledgerEntry;
 
 /**
- * @author PŒl Orby, SendRegning AS
+ * @author PÃ¥l Orby, SendRegning AS
  *
  */
 public class SwsClientDemo {
 
 	public static void main(String[] args) throws Exception {
+
+        // Unique batch id to prevent double submit when issuing invoices.
+        String batchId = "UNIQUE";
 
 		// pick up username and password from arguments, you should probably
 		// check the values better in your implementation.
@@ -53,7 +56,8 @@ public class SwsClientDemo {
 		// send an invoice. As you can see, you get the invoice(s) back with all
 		// fields populated by SendRegning, like account number organization number,
 		// KID number, total amount, etc...
-		invoices = swsClient.sendInvoices(generateDemoInvoice());
+        // The batchId is the unique value that prevents us from sending this batch twice.
+		invoices = swsClient.sendInvoices(generateDemoInvoice(), batchId);
 
 		// get invoices with invoice number 2 and 12 as a single PDF. This byte
 		// array can be stored in your database, written to a file or displayed
