@@ -139,20 +139,21 @@ public class SwsClient {
      */
     public void setTest(final Boolean test) {
 
-        if (test) {
+        if(test) {
 
-            LIST_INVOICE_HTTP_PARAMS = new NameValuePair[]{new NameValuePair("action", "select"), new NameValuePair("type", "invoice"), new NameValuePair("test", "true")};
+            LIST_INVOICE_HTTP_PARAMS = new NameValuePair[] {new NameValuePair("action", "select"), new NameValuePair("type", "invoice"), new NameValuePair("test", "true")};
 
-            SEND_INVOICE_HTTP_PARAMS = new NameValuePair[]{new NameValuePair("action", "send"), new NameValuePair("type", "invoice"), new NameValuePair("test", "true")};
+            SEND_INVOICE_HTTP_PARAMS = new NameValuePair[] {new NameValuePair("action", "send"), new NameValuePair("type", "invoice"), new NameValuePair("test", "true")};
 
-            SELECT_INVOICE_STATUS = new NameValuePair[]{new NameValuePair("action", "select"), new NameValuePair("type", "invoice-status"), new NameValuePair("test", "true")};
-        } else {
+            SELECT_INVOICE_STATUS = new NameValuePair[] {new NameValuePair("action", "select"), new NameValuePair("type", "invoice-status"), new NameValuePair("test", "true")};
+        }
+        else {
 
-            LIST_INVOICE_HTTP_PARAMS = new NameValuePair[]{new NameValuePair("action", "select"), new NameValuePair("type", "invoice")};
+            LIST_INVOICE_HTTP_PARAMS = new NameValuePair[] {new NameValuePair("action", "select"), new NameValuePair("type", "invoice")};
 
-            SEND_INVOICE_HTTP_PARAMS = new NameValuePair[]{new NameValuePair("action", "send"), new NameValuePair("type", "invoice")};
+            SEND_INVOICE_HTTP_PARAMS = new NameValuePair[] {new NameValuePair("action", "send"), new NameValuePair("type", "invoice")};
 
-            SELECT_INVOICE_STATUS = new NameValuePair[]{new NameValuePair("action", "select"), new NameValuePair("type", "invoice-status")};
+            SELECT_INVOICE_STATUS = new NameValuePair[] {new NameValuePair("action", "select"), new NameValuePair("type", "invoice-status")};
         }
     }
 
@@ -164,12 +165,12 @@ public class SwsClient {
         // utfører HTTP POST kommandoen, får responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
-        if (log.isDebugEnabled()) {
+        if(log.isDebugEnabled()) {
             log.debug("Response code=" + responseCode);
             log.debug("Response headers:\n" + getInvoices.getResponseHeaders());
         }
 
-        if (responseCode != 200) {
+        if(responseCode != 200) {
             String responseBodyAsString = getInvoices.getResponseBodyAsString();
             log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
             throw new SwsResponseCodeException(responseCode, responseBodyAsString);
@@ -181,30 +182,34 @@ public class SwsClient {
 
         try {
             return InvoiceHelper.xml2Invoice(XmlUtils.string2Xml(response));
-        } catch (final SwsMissingRequiredElementInResponseException e) {
+        }
+        catch(final SwsMissingRequiredElementInResponseException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final SwsNotValidRecipientException e) {
+        }
+        catch(final SwsNotValidRecipientException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final JDOMException e) {
+        }
+        catch(final JDOMException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final ParseException e) {
+        }
+        catch(final ParseException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
 
     public List<Invoice> getInvoices(final Integer... invoiceNumbers) throws HttpException, IOException, SwsResponseCodeException {
 
-        if (invoiceNumbers == null || invoiceNumbers.length <= 0) {
+        if(invoiceNumbers == null || invoiceNumbers.length <= 0) {
             throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or an empty array.");
         }
 
         final StringBuilder xml = new StringBuilder("<select><invoiceNumbers>");
 
         // iterate all given invoiceNumbers
-        for (final Integer currentInvoiceNumber : invoiceNumbers) {
+        for(final Integer currentInvoiceNumber : invoiceNumbers) {
             xml.append("<invoiceNumber>").append(currentInvoiceNumber).append("</invoiceNumber>");
         }
 
@@ -216,7 +221,7 @@ public class SwsClient {
         // utfører HTTP POST kommandoen, får responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
-        if (responseCode != 200) {
+        if(responseCode != 200) {
             String responseBodyAsString = getInvoices.getResponseBodyAsString();
             log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
             throw new SwsResponseCodeException(responseCode, responseBodyAsString);
@@ -228,16 +233,20 @@ public class SwsClient {
 
         try {
             return InvoiceHelper.xml2Invoice(XmlUtils.string2Xml(response));
-        } catch (final SwsMissingRequiredElementInResponseException e) {
+        }
+        catch(final SwsMissingRequiredElementInResponseException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final SwsNotValidRecipientException e) {
+        }
+        catch(final SwsNotValidRecipientException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final JDOMException e) {
+        }
+        catch(final JDOMException e) {
             // this is from the server, so everything should be all right with the response
             throw new RuntimeException(e.getMessage(), e);
-        } catch (final ParseException e) {
+        }
+        catch(final ParseException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
@@ -252,8 +261,7 @@ public class SwsClient {
      *         Returns <code>null</code> if the given parameter <code>invoices</code> is either <code>null</code> or the
      *         <code>size()</code> is zero
      *         </p>
-     * @throws SwsRequiredBatchIdException If the parameter batchId is either null or an empty String. This value is used on the server side to prevent double HTTP POST's, meaning a duplicate batchId will be rejected by the server.
-     *
+     * @throws SwsRequiredBatchIdException   If the parameter batchId is either null or an empty String. This value is used on the server side to prevent double HTTP POST's, meaning a duplicate batchId will be rejected by the server.
      * @throws SwsRequiredInvoiceValueException
      *                                       If a required value isn't set on the <code>Invoice</code>
      * @throws SwsNoRecipientForInvoiceException
@@ -270,18 +278,22 @@ public class SwsClient {
      *                                       If we can't find a required element in the response
      * @throws SwsNotValidRecipientException If the required elements name, city or zip isn't found in the invoice
      *                                       elements from the response
-     * @throws IOException If any IO errors occur.
-     * @throws SwsMissingCreditedIdException If you are issuing a credit invoice you must also specify creditedId
-     * @throws SwsResponseCodeException      Throw if the server respons code is different from 200
+     * @throws IOException                   If any IO errors occur.
+     * @throws SwsMissingCreditedIdException If you are issuing a credit invoice you must also specify creditedId.
+     * @throws SwsResponseCodeException      Throw if the server respons code is different from 200.
+     * @throws SwsBatchIdTooLongException    If the required parameter batchId exceeds 256 characters.
      */
-    public List<Invoice> sendInvoices(final List<Invoice> invoices, String batchId) throws SwsRequiredInvoiceValueException, SwsNoRecipientForInvoiceException, SwsNoInvoiceLinesForInvoiceException, SwsTooManyInvoiceLinesException, IOException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException, SwsNotValidRecipientException, SwsMissingCreditedIdException, SwsResponseCodeException, SwsRequiredBatchIdException {
+    public List<Invoice> sendInvoices(final List<Invoice> invoices, String batchId) throws SwsRequiredInvoiceValueException, SwsNoRecipientForInvoiceException, SwsNoInvoiceLinesForInvoiceException, SwsTooManyInvoiceLinesException, IOException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException, SwsNotValidRecipientException, SwsMissingCreditedIdException, SwsResponseCodeException, SwsRequiredBatchIdException, SwsBatchIdTooLongException {
 
-        if (invoices == null || invoices.size() == 0) {
+        if(invoices == null || invoices.size() == 0) {
             return null;
         }
 
-        if (batchId == null || batchId.trim().length() == 0) {
+        if(batchId == null || batchId.trim().length() == 0) {
             throw new SwsRequiredBatchIdException();
+        }
+        else if(batchId.length() > 256) {
+            throw new SwsBatchIdTooLongException();
         }
 
         // xml root element
@@ -292,14 +304,14 @@ public class SwsClient {
 
         final Document xml = new Document(invoicesElement);
 
-        for (final Invoice currentInvoice : invoices) {
+        for(final Invoice currentInvoice : invoices) {
 
             // add invoice element to root element for every iteration
             final Element invoiceElement = new Element("invoice");
             invoicesElement.addContent(invoiceElement);
 
             // add clientId attribute, if present
-            if (currentInvoice.getClientId() != null && currentInvoice.getClientId().trim().length() > 0) {
+            if(currentInvoice.getClientId() != null && currentInvoice.getClientId().trim().length() > 0) {
                 invoiceElement.setAttribute("clientId", currentInvoice.getClientId());
             }
 
@@ -316,7 +328,7 @@ public class SwsClient {
             final List<List<Element>> invoiceLinesElements = InvoiceHelper.getInvoiceLinesValuesAsXmlElements(currentInvoice);
 
             // add invoice lines XML elements to the <lines> element
-            for (final List<Element> currentLine : invoiceLinesElements) {
+            for(final List<Element> currentLine : invoiceLinesElements) {
 
                 // create line element
                 final Element lineElement = new Element("line");
@@ -334,7 +346,7 @@ public class SwsClient {
             // add recipientNo, address1, address2 and country to optional element
             final List<Element> optionalsRecipientElements = InvoiceHelper.getOptionalRecipientValuesAsXmlElements(currentInvoice);
 
-            if (optionalsRecipientElements != null && optionalsRecipientElements.size() > 0) {
+            if(optionalsRecipientElements != null && optionalsRecipientElements.size() > 0) {
                 optionalElement.addContent(optionalsRecipientElements);
             }
 
@@ -345,26 +357,27 @@ public class SwsClient {
             invoiceElement.addContent(shipmentElement);
 
             // credit invoice?
-            if (currentInvoice.getInvoiceType().equals(InvoiceType.credit)) {
+            if(currentInvoice.getInvoiceType().equals(InvoiceType.credit)) {
 
                 // add <invoiceType>credit</invoiceType> to <optional> element
                 optionalElement.addContent(new Element("invoiceType").setText(InvoiceType.credit.name()));
 
                 // add <creditedId>x</creditedId>
-                if (currentInvoice.getCreditedInvoiceNo() != null) {
+                if(currentInvoice.getCreditedInvoiceNo() != null) {
                     optionalElement.addContent(new Element("creditedId").setText(currentInvoice.getCreditedInvoiceNo().toString()));
-                } else {
+                }
+                else {
                     throw new SwsMissingCreditedIdException(currentInvoice);
                 }
             }
 
             // remove optional element if empty
-            if (optionalElement.getChildren().size() == 0) {
+            if(optionalElement.getChildren().size() == 0) {
                 invoiceElement.removeChild("optional");
             }
         }
 
-        if (log.isDebugEnabled()) {
+        if(log.isDebugEnabled()) {
             log.debug("xml=\n" + XmlUtils.xml2String(xml, Format.getPrettyFormat()));
         }
 
@@ -373,14 +386,14 @@ public class SwsClient {
 
         final int responseCode = this.httpClient.executeMethod(sendInvoices);
 
-        if (log.isDebugEnabled()) {
+        if(log.isDebugEnabled()) {
             log.debug("Response headers:\n" + getResponseHeaders(sendInvoices.getResponseHeaders()));
         }
 
         // get the response body as string
         final String responseBodyAsString = sendInvoices.getResponseBodyAsString();
 
-        if (responseCode != 200) {
+        if(responseCode != 200) {
             log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
             throw new SwsResponseCodeException(responseCode, responseBodyAsString);
         }
@@ -388,22 +401,25 @@ public class SwsClient {
         // read response and generate XML document
         Document response;
         try {
-            if (log.isDebugEnabled()) {
+            if(log.isDebugEnabled()) {
                 log.debug("Got this response:\n" + responseBodyAsString);
             }
 
             // convert String --> JDOM Document
             response = XmlUtils.string2Xml(responseBodyAsString);
-        } catch (final JDOMException e) {
+        }
+        catch(final JDOMException e) {
             throw new SwsParsingServerResponseException(responseBodyAsString, e);
-        } finally {
+        }
+        finally {
             sendInvoices.releaseConnection();
         }
 
         List<Invoice> result;
         try {
             result = InvoiceHelper.xml2Invoice(response);
-        } catch (final ParseException e) {
+        }
+        catch(final ParseException e) {
             throw new SwsParsingServerResponseException(responseBodyAsString, e);
         }
 
@@ -412,7 +428,7 @@ public class SwsClient {
 
     public List<DraftInvoice> createDraftInvoices(final List<DraftInvoice> drafts) throws SwsRequiredInvoiceValueException, SwsTooManyInvoiceLinesException {
 
-        if (drafts == null || drafts.size() == 0) {
+        if(drafts == null || drafts.size() == 0) {
             return null;
         }
 
@@ -420,7 +436,7 @@ public class SwsClient {
         final Element draftsElement = new Element("drafts");
         final Document draft = new Document(draftsElement);
 
-        for (final DraftInvoice currentDraft : drafts) {
+        for(final DraftInvoice currentDraft : drafts) {
 
             // add draft element to root element for every iteration
             final Element draftElement = new Element("draft");
@@ -430,7 +446,7 @@ public class SwsClient {
             draftElement.addContent(optionalElement);
 
             // add optional recipient elements
-            if (currentDraft.getRecipient() != null) {
+            if(currentDraft.getRecipient() != null) {
 
                 final List<Element> recipientElements = RecipientHelper.getRecipientValuesAsXmlElements(currentDraft.getRecipient());
                 final List<Element> recipientOptionalElements = RecipientHelper.getOptionalRecipientValuesAsXmlElements(currentDraft.getRecipient());
@@ -447,7 +463,7 @@ public class SwsClient {
             final List<List<Element>> draftInvoiceLinesElements = DraftInvoiceHelper.getInvoiceLinesAsXmlElements(currentDraft);
 
             // add invoice lines XML elements to the <lines> element
-            for (final List<Element> currentLine : draftInvoiceLinesElements) {
+            for(final List<Element> currentLine : draftInvoiceLinesElements) {
 
                 // create line element
                 final Element lineElement = new Element("line");
@@ -465,14 +481,14 @@ public class SwsClient {
 
     public byte[] getPdfInvoices(final Integer... invoiceNumbers) throws HttpException, IOException, SwsResponseCodeException {
 
-        if (invoiceNumbers == null || invoiceNumbers.length <= 0) {
+        if(invoiceNumbers == null || invoiceNumbers.length <= 0) {
             throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or an empty array.");
         }
 
         final StringBuilder xml = new StringBuilder("<select><invoiceNumbers>");
 
         // iterate all given invoiceNumbers
-        for (final Integer currentInvoiceNumber : invoiceNumbers) {
+        for(final Integer currentInvoiceNumber : invoiceNumbers) {
             xml.append("<invoiceNumber>").append(currentInvoiceNumber).append("</invoiceNumber>");
         }
 
@@ -484,7 +500,7 @@ public class SwsClient {
         // utf�rer HTTP POST kommandoen, f�r responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
-        if (responseCode != 200) {
+        if(responseCode != 200) {
             String responseBodyAsString = getInvoices.getResponseBodyAsString();
             log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
             throw new SwsResponseCodeException(responseCode, responseBodyAsString);
@@ -500,7 +516,7 @@ public class SwsClient {
 
     public byte[] getJpgInvoice(final Integer invoiceNumber) throws HttpException, IOException, SwsResponseCodeException {
 
-        if (invoiceNumber == null || invoiceNumber <= 0) {
+        if(invoiceNumber == null || invoiceNumber <= 0) {
             throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or less or equal to zero.");
         }
 
@@ -514,7 +530,7 @@ public class SwsClient {
         // utfører HTTP POST kommandoen, får responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
-        if (responseCode != 200) {
+        if(responseCode != 200) {
             String responseBodyAsString = getInvoices.getResponseBodyAsString();
             log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
             throw new SwsResponseCodeException(responseCode, responseBodyAsString);
@@ -530,7 +546,7 @@ public class SwsClient {
     public InvoiceStatus getInvoiceStatus(final Integer invoiceNumber) throws IOException, SwsResponseCodeException, SwsParsingServerResponseException {
 
 
-        if (invoiceNumber == null || invoiceNumber <= 0) {
+        if(invoiceNumber == null || invoiceNumber <= 0) {
             throw new IllegalArgumentException("Parameter invoiceNumbers can't be null or less or equal to zero.");
         }
 
@@ -544,23 +560,28 @@ public class SwsClient {
 
             final String response = selectInvoiceStatus.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
                 throw new SwsResponseCodeException(responseCode, response);
             }
 
             try {
                 return InvoiceHelper.mapResponseToInvoiceStatus(XmlUtils.string2Xml(response));
 
-            } catch (JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementAttributeInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (ParseException e) {
+            }
+            catch(JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(SwsMissingRequiredElementAttributeInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(ParseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
 
             selectInvoiceStatus.releaseConnection();
         }
@@ -568,7 +589,7 @@ public class SwsClient {
 
     public List<SalesledgerEntry> getSalesledgerEntries(final Integer recipientNo) throws SwsResponseCodeException, HttpException, IOException, SwsParsingServerResponseException {
 
-        if (recipientNo == null || recipientNo <= 0) {
+        if(recipientNo == null || recipientNo <= 0) {
             throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
         }
 
@@ -579,29 +600,34 @@ public class SwsClient {
 
             final String response = salesledgerEntries.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
                 throw new SwsResponseCodeException(responseCode, response);
             }
 
             try {
                 return SalesledgerHelper.mapResponseToListOfSalesledgerEntries(XmlUtils.string2Xml(response));
-            } catch (final JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (final SwsMissingRequiredElementAttributeInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (final SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (final ParseException e) {
+            }
+            catch(final JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(final SwsMissingRequiredElementAttributeInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(final SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(final ParseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             salesledgerEntries.releaseConnection();
         }
     }
 
     public Balance getBalanceForRecipient(final Integer recipientNo) throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 
-        if (recipientNo == null || recipientNo <= 0) {
+        if(recipientNo == null || recipientNo <= 0) {
             throw new IllegalArgumentException("Param recipientNo can't be null, less than or equal to zero");
         }
 
@@ -612,22 +638,27 @@ public class SwsClient {
 
             final String response = balanceEntries.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
                 throw new SwsResponseCodeException(responseCode, response);
             }
 
             try {
                 return BalanceHelper.mapResponseToBalance(XmlUtils.string2Xml(response));
-            } catch (final JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (NumberFormatException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementAttributeInResponseException e) {
+            }
+            catch(final JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(NumberFormatException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(SwsMissingRequiredElementAttributeInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             balanceEntries.releaseConnection();
         }
     }
@@ -641,22 +672,27 @@ public class SwsClient {
 
             final String response = balanceEntries.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
                 throw new SwsResponseCodeException(responseCode, response);
             }
 
             try {
                 return BalanceHelper.mapResponseToMapOfBalanceEntries(XmlUtils.string2Xml(response));
-            } catch (final JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (NumberFormatException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementAttributeInResponseException e) {
+            }
+            catch(final JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(NumberFormatException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(SwsMissingRequiredElementAttributeInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             balanceEntries.releaseConnection();
         }
     }
@@ -671,24 +707,28 @@ public class SwsClient {
 
             final String response = getMethod.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
 
                 // 204 == No Content. Return empty list
-                if (responseCode == 204) {
+                if(responseCode == 204) {
                     return new LinkedList<Recipient>();
-                } else {
+                }
+                else {
                     throw new SwsResponseCodeException(responseCode, response);
                 }
             }
 
             try {
                 return RecipientHelper.mapRecipientResponseToRecipientList(response);
-            } catch (final JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementInResponseException e) {
+            }
+            catch(final JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             getMethod.releaseConnection();
         }
     }
@@ -705,7 +745,7 @@ public class SwsClient {
      */
     public Recipient getRecipientByRecipientNo(String recipientNo) throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 
-        if (recipientNo == null || recipientNo.trim().length() == 0) {
+        if(recipientNo == null || recipientNo.trim().length() == 0) {
             throw new IllegalArgumentException("Param recipientNo can't be null or an empty String");
         }
 
@@ -717,31 +757,35 @@ public class SwsClient {
 
             final String response = getMethod.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
 
                 // 204 == No Content. Return null
-                if (responseCode == 204) {
+                if(responseCode == 204) {
                     return null;
-                } else {
+                }
+                else {
                     throw new SwsResponseCodeException(responseCode, response);
                 }
             }
 
             try {
                 return RecipientHelper.mapRecipientResponseToRecipient(response);
-            } catch (JDOMException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (SwsMissingRequiredElementInResponseException e) {
+            }
+            catch(JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             getMethod.releaseConnection();
         }
     }
 
     public List<Recipient> findRecipientByName(String recipientName) throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 
-        if (recipientName == null || recipientName.trim().length() == 0) {
+        if(recipientName == null || recipientName.trim().length() == 0) {
             throw new IllegalArgumentException("Param recipientName can't be null or an empty String");
         }
 
@@ -754,24 +798,28 @@ public class SwsClient {
 
             final String response = getMethod.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
 
                 // 204 == No Content. Return empty list
-                if (responseCode == 204) {
+                if(responseCode == 204) {
                     return new LinkedList<Recipient>();
-                } else {
+                }
+                else {
                     throw new SwsResponseCodeException(responseCode, response);
                 }
             }
 
             try {
                 return RecipientHelper.mapRecipientResponseToRecipientList(response);
-            } catch (SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (JDOMException e) {
+            }
+            catch(SwsMissingRequiredElementInResponseException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(JDOMException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             getMethod.releaseConnection();
         }
     }
@@ -787,12 +835,13 @@ public class SwsClient {
 
             final String response = getMethod.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
 
                 // 204 == No Content. Return empty list
-                if (responseCode == 204) {
+                if(responseCode == 204) {
                     return new LinkedList<RecipientCategory>();
-                } else {
+                }
+                else {
                     throw new SwsResponseCodeException(responseCode, response);
                 }
             }
@@ -800,20 +849,23 @@ public class SwsClient {
             try {
                 try {
                     return RecipientHelper.mapRecipientCategoriesResponseToRecipientCategoryList(response);
-                } catch (SwsMissingRequiredElementInResponseException e) {
+                }
+                catch(SwsMissingRequiredElementInResponseException e) {
                     throw new SwsParsingServerResponseException(response, e);
                 }
-            } catch (JDOMException e) {
+            }
+            catch(JDOMException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+        }
+        finally {
             getMethod.releaseConnection();
         }
     }
 
     public List<Recipient> getAllRecipientsInCategory(String recipientCategoryName) throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
 
-        if (recipientCategoryName == null || recipientCategoryName.trim().length() == 0) {
+        if(recipientCategoryName == null || recipientCategoryName.trim().length() == 0) {
             throw new IllegalArgumentException("Param recipientCategoryName can't be null or an empty String");
         }
 
@@ -826,24 +878,28 @@ public class SwsClient {
 
             final String response = getMethod.getResponseBodyAsString();
 
-            if (responseCode != 200) {
+            if(responseCode != 200) {
 
                 // 204 == No Content. Return empty list
-                if (responseCode == 204) {
+                if(responseCode == 204) {
                     return new LinkedList<Recipient>();
-                } else {
+                }
+                else {
                     throw new SwsResponseCodeException(responseCode, response);
                 }
             }
 
             try {
                 return RecipientHelper.mapRecipientResponseToRecipientList(response);
-            } catch (SwsMissingRequiredElementInResponseException e) {
-                throw new SwsParsingServerResponseException(response, e);
-            } catch (JDOMException e) {
+            }
+            catch(SwsMissingRequiredElementInResponseException e) {
                 throw new SwsParsingServerResponseException(response, e);
             }
-        } finally {
+            catch(JDOMException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
             getMethod.releaseConnection();
         }
     }
@@ -859,7 +915,8 @@ public class SwsClient {
         ByteArrayPartSource xml;
         try {
             xml = new ByteArrayPartSource("sws.xml", swsXml.getBytes("UTF-8"));
-        } catch (final UnsupportedEncodingException e) {
+        }
+        catch(final UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
@@ -874,7 +931,7 @@ public class SwsClient {
 
         final StringBuilder debug = new StringBuilder("Response headers:\n");
 
-        for (final Header header : responseHeaders) {
+        for(final Header header : responseHeaders) {
             debug.append(header.getName()).append("=").append(header.getValue()).append("\n");
         }
 
@@ -888,7 +945,8 @@ public class SwsClient {
         List<Invoice> invoices = null;
         try {
             invoices = swsClient.getAllInvoices();
-        } catch (SwsResponseCodeException e) {
+        }
+        catch(SwsResponseCodeException e) {
             System.err.println(e.getMessage());
             System.exit(e.getResponseCode());
         }
