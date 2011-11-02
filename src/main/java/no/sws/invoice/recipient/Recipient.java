@@ -21,7 +21,7 @@ public interface Recipient {
 
 	/**
 	 * Set name.
-	 * 
+	 *
 	 * @param name to set.
 	 * @throws IllegalArgumentException If name is null or zero length.
 	 */
@@ -39,7 +39,7 @@ public interface Recipient {
 
 	/**
 	 * Set zip.
-	 * 
+	 *
 	 * @param zip to set.
 	 * @throws IllegalArgumentException If zip is null or zero length.
 	 */
@@ -49,7 +49,7 @@ public interface Recipient {
 
 	/**
 	 * Set city.
-	 * 
+	 *
 	 * @param city to set.
 	 * @throws IllegalArgumentException If city is null or zero length.
 	 */
@@ -72,6 +72,8 @@ public interface Recipient {
 	public void setWeb(String web);
 
 	public void setCategory(String category);
+
+    public String getCategory();
 
 	public void setComment(String comment);
 
