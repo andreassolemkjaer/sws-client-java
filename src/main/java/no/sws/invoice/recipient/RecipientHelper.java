@@ -9,6 +9,7 @@
 package no.sws.invoice.recipient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -228,8 +229,21 @@ public class RecipientHelper {
 			result.setOrgNo(getChildElementValue(optionalElement, "orgNo", Boolean.FALSE));
 			result.setPreferredShipment(getChildElementValue(optionalElement, "preferredShipment", Boolean.FALSE));
 			result.setAttachPdf(getChildElementValue(optionalElement, "attachPdf", Boolean.FALSE));
-		}
-		
+
+            //add multiple categories
+            List<String> categories = new ArrayList<String>();
+
+            Element categoriesElement = optionalElement.getChild("categories");
+
+            if(categoriesElement != null &&  categoriesElement.getChildren("category").size() > 0) {
+                List<Element> catElements = categoriesElement.getChildren();
+
+                for(Element e : catElements){
+                    categories.add(e.getValue());
+                }
+		    }
+            result.setCategories(categories);
+        }
 		
 		return result;
 	}

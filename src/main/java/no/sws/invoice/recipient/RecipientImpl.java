@@ -8,6 +8,8 @@
  */
 package no.sws.invoice.recipient;
 
+import java.util.List;
+
 /**
  * @author Pål Orby, SendRegning AS
  */
@@ -31,6 +33,7 @@ public class RecipientImpl implements Recipient {
 	private String phone;
 	private String preferredShipment;
 	private String web;
+    private List<String> categories;
 
 	/*
 	 * (non-Javadoc)
@@ -199,7 +202,15 @@ public class RecipientImpl implements Recipient {
 
 	}
 
-	public String getCategory() {
+    public List<String> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public String getCategory() {
 
 		return this.category;
 	}

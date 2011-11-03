@@ -8,6 +8,8 @@
  */
 package no.sws.invoice.recipient;
 
+import java.util.List;
+
 /**
  * @author Pål Orby, SendRegning AS
  */
@@ -84,4 +86,8 @@ public interface Recipient {
 	public void setPreferredShipment(String preferredShipment);
 
 	public void setAttachPdf(String attachPdf);
+
+    public List<String> getCategories();
+
+    void setCategories(List<String> categories);
 }
