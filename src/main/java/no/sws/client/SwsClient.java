@@ -558,7 +558,14 @@ public class SwsClient {
 
             final int responseCode = this.httpClient.executeMethod(selectInvoiceStatus);
 
+            if(responseCode == 204) {
+
+                // no response
+                return null;
+            }
+
             final String response = selectInvoiceStatus.getResponseBodyAsString();
+
 
             if(responseCode != 200) {
                 throw new SwsResponseCodeException(responseCode, response);
