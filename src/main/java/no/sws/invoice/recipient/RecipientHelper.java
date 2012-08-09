@@ -83,6 +83,7 @@ public class RecipientHelper {
 		final LinkedList<Element> result = new LinkedList<Element>();
 
 		final String recipientNo = recipient.getRecipientNo();
+        final String recipientOrgNo = recipient.getOrgNo();
 		final String address1 = recipient.getAddress1();
 		final String address2 = recipient.getAddress2();
 		final String country = recipient.getCountry();
@@ -91,6 +92,11 @@ public class RecipientHelper {
 		if(recipientNo != null && recipientNo.trim().length() > 0) {
 			result.add(new Element("recipientNo").setText(recipientNo));
 		}
+
+        // recipientOrgNo is optional
+        if(recipientOrgNo != null && recipientOrgNo.trim().length() > 0) {
+            result.add(new Element("recipientOrgNo").setText(recipientOrgNo));
+        }
 
 		// address1 is optional
 		if(address1 != null && address1.trim().length() > 0) {
@@ -218,6 +224,7 @@ public class RecipientHelper {
 			result.setAddress2(getChildElementValue(optionalElement, "address2", Boolean.FALSE));
 			result.setCountry(getChildElementValue(optionalElement, "country", Boolean.FALSE));
 			result.setRecipientNo(getChildElementValue(optionalElement, "recipientNo", Boolean.FALSE));
+            result.setOrgNo(getChildElementValue(optionalElement, "recipientOrgNo", Boolean.FALSE));
 			result.setPhone(getChildElementValue(optionalElement, "phone", Boolean.FALSE));
 			result.setMobile(getChildElementValue(optionalElement, "mobile", Boolean.FALSE));
 			result.setFax(getChildElementValue(optionalElement, "fax", Boolean.FALSE));
@@ -226,7 +233,6 @@ public class RecipientHelper {
 			result.setCategory(getChildElementValue(optionalElement, "category", Boolean.FALSE));
 			result.setComment(getChildElementValue(optionalElement, "comment", Boolean.FALSE));
 			result.setCreditDays(getChildElementValue(optionalElement, "creditDays", Boolean.FALSE));
-			result.setOrgNo(getChildElementValue(optionalElement, "orgNo", Boolean.FALSE));
 			result.setPreferredShipment(getChildElementValue(optionalElement, "preferredShipment", Boolean.FALSE));
 			result.setAttachPdf(getChildElementValue(optionalElement, "attachPdf", Boolean.FALSE));
 

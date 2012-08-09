@@ -271,6 +271,7 @@ public class InvoiceHelper extends SwsHelper {
 			else {
 
 				recipient.setRecipientNo(getElementValue(optionalElement, "recipientNo", false));
+                recipient.setOrgNo(getElementValue(optionalElement, "recipientOrgNo", false));
 				recipient.setAddress1(getElementValue(optionalElement, "address1", false));
 				recipient.setAddress2(getElementValue(optionalElement, "address2", false));
 				recipient.setCountry(getElementValue(optionalElement, "country", false));

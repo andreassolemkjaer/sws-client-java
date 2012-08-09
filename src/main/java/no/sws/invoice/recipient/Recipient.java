@@ -89,5 +89,7 @@ public interface Recipient {
 
     public List<String> getCategories();
 
-    void setCategories(List<String> categories);
+    public void setCategories(List<String> categories);
+
+    public String getOrgNo();
 }

@@ -343,7 +343,7 @@ public class SwsClient {
             final Element optionalElement = new Element("optional");
             invoiceElement.addContent(optionalElement);
 
-            // add recipientNo, address1, address2 and country to optional element
+            // add recipientNo, recipientOrgNo, address1, address2 and country to optional element
             final List<Element> optionalsRecipientElements = InvoiceHelper.getOptionalRecipientValuesAsXmlElements(currentInvoice);
 
             if(optionalsRecipientElements != null && optionalsRecipientElements.size() > 0) {
