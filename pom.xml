@@ -25,22 +25,22 @@
 	
 	<distributionManagement>
 		<site>
-			<id>embla.balder.no</id>
-			<url>scp://embla.balder.no/var/www/sendregning-maven-site/${project.version}
+			<id>embla.sendregning.no</id>
+			<url>scp://embla.sendregning.no/var/www/sendregning-maven-site/${project.version}
 			</url>
 		</site>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
 			<id>sr-repo</id>
 			<name>Sendregning on nexus</name>
-			<url>http://embla.balder.no:8081/nexus/content/repositories/sendregning
+			<url>http://embla.sendregning.no:8081/nexus/content/repositories/sendregning
 			</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>sr-snapshot-repo</id>
 			<name>Sendregning snapshot on nexus</name>
-			<url>http://embla.balder.no:8081/nexus/content/repositories/snapshots
+			<url>http://embla.sendregning.no:8081/nexus/content/repositories/snapshots
 			</url>
 		</snapshotRepository>
 	</distributionManagement>
