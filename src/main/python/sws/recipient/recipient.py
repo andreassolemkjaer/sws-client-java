@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-import xml.etree.ElementTree as ET
-
 class Recipient:
 	''' The class that contains all information
 	about a recipient. It contains get and set 
@@ -32,6 +30,8 @@ class Recipient:
 		return self.email
 	def get_web(self):
 		return self.web
+	def get_comment(self):
+		return self.comment
 	def get_creditDays(self):
 		return self.creditDays
 	def get_orgNo(self):
@@ -65,6 +65,8 @@ class Recipient:
 		self.email = localemail
         def set_web(self, localweb):
 		self.web = localweb
+	def set_comment(self, localcomment):
+		self.comment = localcomment
         def set_creditDays(self, localcredit):
 		self.creditDays = localcredit
         def set_orgNo(self, localorgNo):
@@ -73,36 +75,4 @@ class Recipient:
 		self.preferredShipment = localpreferred
         def set_attachPdf(self, localpdf):
 		self.attachPdf = localpdf
-
-
-				
-def parse_recipients(xml):
-	'''
-	Parsing the xml result from 
-	"get all recipients call" and makes
-	recipient objects of it.
-	'''
-	recipients = []
-	
-	root = ET.fromstring(xml)
-	for recipient in root:
-		temp_recipient = Recipient()
-		print recipient[0].text
-		temp_recipient.set_name(recipient[0].text) 
-		temp_recipient.set_zipcode(recipient[1].text)
-		temp_recipient.set_city(recipient[2].text) 
-		temp_recipient.set_address1(recipient[3][0].text) 
- 		temp_recipient.set_address2(recipient[3][1].text)		
-  		temp_recipient.set_country(recipient[3][2].text)
-		temp_recipient.set_recipientNo(recipient[3][3].text)
-  		temp_recipient.set_phone(recipient[3][4].text)
-  		temp_recipient.set_mobile(recipient[3][5].text)
-                temp_recipient.set_fax(recipient[3][6].text)
-                temp_recipient.set_email(recipient[3][7].text)
-                temp_recipient.set_web(recipient[3][8].text)
-		temp_recipient.set_creditDays(recipient[3][10].text)
-		temp_recipient.set_orgNo(recipient[3][11].text)
-		temp_recipient.set_preferredShipment(recipient[3][11].text)
-		temp_recipient.set_attachPdf(recipient[3][12].text)
-		recipients.append(temp_recipient)
-	return recipients				
+			   				
