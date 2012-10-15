@@ -2,6 +2,7 @@
 
 import requests
 import recipient.recipient
+import recipient.parser
 
 class SwsClient:
 	def __init__(self,username,password):
@@ -16,7 +17,7 @@ class SwsClient:
 		result = requests.get('https://www.sendregning.no/ws/butler.do?action=select&type=recipient', auth=(self.username, self.password))
 		if(result.status_code != 200):
 			return -1
-		return recipient.recipient.parse_recipients(result.text)
+		return recipient.parser.parse_recipients(result.text)
 
 
 	def getRecipient(self,recipientNo):
@@ -27,4 +28,4 @@ class SwsClient:
 		result = requests.get('https://www.sendregning.no/ws/butler.do?action=select&type=recipient&recipientNo=%s' % recipientNo, auth=(self.username, self.password))
 		if (result.status_code != 200):
 			return -1
-		return recipient.recipient.parse_recipients(result.text)
+		return recipient.parser.parse_recipients(result.text)
