@@ -87,8 +87,9 @@ public class RecipientHelper {
 		final String address1 = recipient.getAddress1();
 		final String address2 = recipient.getAddress2();
 		final String country = recipient.getCountry();
+        final String email = recipient.getEmail();
 
-		// recipientNo is optional
+        // recipientNo is optional
 		if(recipientNo != null && recipientNo.trim().length() > 0) {
 			result.add(new Element("recipientNo").setText(recipientNo));
 		}
@@ -111,6 +112,11 @@ public class RecipientHelper {
 		if(country != null && country.trim().length() > 0) {
 			result.add(new Element("country").setText(country));
 		}
+
+        // email is optional
+        if (email != null && email.trim().length() > 0) {
+            result.add(new Element("email").setText(email));
+        }
 
 		return result;
 	}
