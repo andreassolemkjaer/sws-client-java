@@ -33,14 +33,14 @@
 		<repository>
 			<id>sr-repo</id>
 			<name>Sendregning on nexus</name>
-			<url>http://embla.sendregning.no:8081/nexus/content/repositories/sendregning
+			<url>http://nexus.sendregning.no:8081/nexus/content/repositories/sendregning
 			</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>sr-snapshot-repo</id>
 			<name>Sendregning snapshot on nexus</name>
-			<url>http://embla.sendregning.no:8081/nexus/content/repositories/snapshots
+			<url>http://nexus.sendregning.no:8081/nexus/content/repositories/snapshots
 			</url>
 		</snapshotRepository>
 	</distributionManagement>
