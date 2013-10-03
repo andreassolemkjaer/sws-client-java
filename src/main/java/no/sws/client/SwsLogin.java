@@ -8,13 +8,13 @@
  */
 package no.sws.client;
 
-import java.io.IOException;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+
+import java.io.IOException;
 
 /**
  * @author Pal Orby, SendRegning AS @ Deprecated - SendRegning Web
@@ -54,33 +54,33 @@ public class SwsLogin {
 	public HttpClient login(final String username, final String password)
 			throws HttpException, IOException {
 
-		// HTTP-klienten som logger seg p� SWS
+		// HTTP-klienten som logger seg p SWS
 		final HttpClient httpClient = new HttpClient();
 
-		// HTTP GET foresp�rselen etter innloggingsiden
+		// HTTP GET foresprselen etter innloggingsiden
 		final GetMethod loggInnSide = new GetMethod(SwsLogin.LOGIN_URL);
 		loggInnSide.setFollowRedirects(true);
 		httpClient.executeMethod(loggInnSide);
 		loggInnSide.releaseConnection();
 
-		// Da har vi kommet til innloggingsiden, her m� vi fylle inn brukernavn
+		// Da har vi kommet til innloggingsiden, her m vi fylle inn brukernavn
 		// og passord
 		final PostMethod formPost = new PostMethod(this.FORM_POST_URL);
 		formPost.addParameter("Referer", SwsLogin.LOGIN_URL);
 		formPost.addParameter("j_username", username);
 		formPost.addParameter("j_password", password);
 
-		// Vi poster formularet og f�r responskoden tilbake
+		// Vi poster formularet og fr responskoden tilbake
 		final int formResponseCode = httpClient.executeMethod(formPost);
 
-		// henter ogs� ut selve responsen
+		// henter ogs ut selve responsen
 		final String formResponse = formPost.getResponseBodyAsString();
 
 		// Utskrift av responskoden og responsen
 		System.out.println("Response code=" + formResponseCode + "\n"
 				+ formResponse);
 
-		// serveren vil videresende oss, s� vi henter ut url'en fra respons
+		// serveren vil videresende oss, s vi henter ut url'en fra respons
 		// headeren
 		final Header videreSend = formPost.getResponseHeader("Location");
 		formPost.releaseConnection();
@@ -88,12 +88,12 @@ public class SwsLogin {
 		if (videreSend == null
 				|| formResponse.contains(SwsLogin.LOGIN_ERROR_STRING)) {
 
-			// vi klarte ikke � logge p� SWS, her burde din klient kaste en
+			// vi klarte ikke  logge p SWS, her burde din klient kaste en
 			// exception
 			return null;
 		}
 
-		// dette er ikke n�dvendig for � logge p�, her holder det � returnere
+		// dette er ikke ndvendig for  logge p, her holder det  returnere
 		// http-klienten
 		final GetMethod redirect = new GetMethod(videreSend.getValue());
 		redirect.setFollowRedirects(true);

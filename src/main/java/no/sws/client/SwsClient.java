@@ -496,10 +496,10 @@ public class SwsClient {
 
         xml.append("</invoiceNumbers><format>pdf</format></select>");
 
-        // HTTP POST kommando for � hente ut alle regninger
+        // HTTP POST kommando for  hente ut alle regninger
         final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-        // utf�rer HTTP POST kommandoen, f�r responskoden tilbake
+        // utfrer HTTP POST kommandoen, fr responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
         if(responseCode != 200) {
