@@ -161,10 +161,10 @@ public class SwsClient {
 
     public List<Invoice> getAllInvoices() throws HttpException, IOException, SwsResponseCodeException {
 
-        // HTTP POST kommando for å hente ut alle regninger
+        // HTTP POST kommando for a hente ut alle regninger
         final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, SwsClient.SELECT_All_INVOICES_XML);
 
-        // utfører HTTP POST kommandoen, får responskoden tilbake
+        // utforer HTTP POST kommandoen, far responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
         if(log.isDebugEnabled()) {
@@ -217,10 +217,10 @@ public class SwsClient {
 
         xml.append("</invoiceNumbers></select>");
 
-        // HTTP POST kommando for å hente ut alle regninger
+        // HTTP POST kommando for a hente ut alle regninger
         final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-        // utfører HTTP POST kommandoen, får responskoden tilbake
+        // utforer HTTP POST kommandoen, far responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
         if(responseCode != 200) {
@@ -526,10 +526,10 @@ public class SwsClient {
         xml.append("<invoiceNumber>").append(invoiceNumber).append("</invoiceNumber>");
         xml.append("</invoiceNumbers><format>jpg</format></select>");
 
-        // HTTP POST kommando for å hente ut alle regninger
+        // HTTP POST kommando for a hente ut alle regninger
         final PostMethod getInvoices = createPostMethod(SwsClient.LIST_INVOICE_HTTP_PARAMS, xml.toString());
 
-        // utfører HTTP POST kommandoen, får responskoden tilbake
+        // utforer HTTP POST kommandoen, far responskoden tilbake
         final int responseCode = this.httpClient.executeMethod(getInvoices);
 
         if(responseCode != 200) {
