@@ -16,6 +16,8 @@ import no.sws.invoice.Invoice;
 import no.sws.invoice.InvoiceHelper;
 import no.sws.invoice.InvoiceStatus;
 import no.sws.invoice.InvoiceType;
+import no.sws.invoice.country.Country;
+import no.sws.invoice.country.CountryHelper;
 import no.sws.invoice.recipient.Recipient;
 import no.sws.invoice.recipient.RecipientHelper;
 import no.sws.recipient.RecipientCategory;
@@ -898,6 +900,41 @@ public class SwsClient {
 
             try {
                 return RecipientHelper.mapRecipientResponseToRecipientList(response);
+            }
+            catch(SwsMissingRequiredElementInResponseException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+            catch(JDOMException e) {
+                throw new SwsParsingServerResponseException(response, e);
+            }
+        }
+        finally {
+            getMethod.releaseConnection();
+        }
+    }
+
+    public List<Country> getCountries() throws SwsResponseCodeException, IOException, SwsParsingServerResponseException {
+        final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=country");
+
+        try {
+
+            final Integer responseCode = this.httpClient.executeMethod(getMethod);
+
+            final String response = getMethod.getResponseBodyAsString();
+
+            if(responseCode != 200) {
+
+                // 204 == No Content. Return empty list
+                if(responseCode == 204) {
+                    return new LinkedList<Country>();
+                }
+                else {
+                    throw new SwsResponseCodeException(responseCode, response);
+                }
+            }
+
+            try {
+                return CountryHelper.mapCountriesResponseToCountryList(response);
             }
             catch(SwsMissingRequiredElementInResponseException e) {
                 throw new SwsParsingServerResponseException(response, e);
