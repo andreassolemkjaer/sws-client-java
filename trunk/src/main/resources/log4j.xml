@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration threshold="debug" debug="false">
+	
+	<appender name="CONSOLE_APPENDER" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p %-25t|%-30c{3}|%C{2}-%M() #%L [%x] - %m%n"></param>
+		</layout>
+	</appender>	
+	
+   <category name="org.apache">
+      <priority value="INFO"/>
+      <appender-ref ref="CONSOLE_APPENDER"/>
+   </category>
+   
+   <category name="httpclient.wire">
+      <priority value="WARN"/>
+      <appender-ref ref="CONSOLE_APPENDER"/>
+   </category>
+	
+	<root>
+		<priority value="debug"/>
+		<appender-ref ref="CONSOLE_APPENDER"/>
+	</root>
+	
+</log4j:configuration>
+	
