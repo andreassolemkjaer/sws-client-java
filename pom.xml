@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.sws.app</groupId>
 	<artifactId>sws-client</artifactId>
-	<version>1.12-SNAPSHOT</version>
+	<version>1.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>SWS Client</name>
 	<organization>
@@ -24,6 +24,11 @@
 	</scm>
 	
 	<distributionManagement>
+		<site>
+			<id>embla.sendregning.no</id>
+			<url>scp://embla.sendregning.no/var/www/sendregning-maven-site/${project.version}
+			</url>
+		</site>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
 			<id>sr-repo</id>
@@ -58,6 +63,22 @@
 		</dependency>
 	</dependencies>
 	<build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.3</version>
+                    <dependencies>
+                        <dependency><!-- add support for ssh/scp -->
+                            <groupId>org.apache.maven.wagon</groupId>
+                            <artifactId>wagon-ssh</artifactId>
+                            <version>1.0</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
