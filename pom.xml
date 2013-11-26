@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.sws.app</groupId>
 	<artifactId>sws-client</artifactId>
-	<version>1.13-SNAPSHOT</version>
+	<version>1.13</version>
 	<packaging>jar</packaging>
 	<name>SWS Client</name>
 	<organization>
@@ -22,13 +22,8 @@
 		<connection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</connection>
 		<developerConnection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</developerConnection>
 	</scm>
-	
+
 	<distributionManagement>
-		<site>
-			<id>embla.sendregning.no</id>
-			<url>scp://embla.sendregning.no/var/www/sendregning-maven-site/${project.version}
-			</url>
-		</site>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
 			<id>sr-repo</id>
@@ -44,7 +39,7 @@
 			</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>commons-httpclient</groupId>

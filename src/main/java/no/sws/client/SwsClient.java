@@ -383,52 +383,57 @@ public class SwsClient {
             log.debug("xml=\n" + XmlUtils.xml2String(xml, Format.getPrettyFormat()));
         }
 
-        // send the request
-        final PostMethod sendInvoices = createPostMethod(SwsClient.SEND_INVOICE_HTTP_PARAMS, XmlUtils.xml2String(xml, Format.getCompactFormat()));
+		return sendInvoices(XmlUtils.xml2String(xml, Format.getCompactFormat()));
 
-        final int responseCode = this.httpClient.executeMethod(sendInvoices);
-
-        if(log.isDebugEnabled()) {
-            log.debug("Response headers:\n" + getResponseHeaders(sendInvoices.getResponseHeaders()));
-        }
-
-        // get the response body as string
-        final String responseBodyAsString = sendInvoices.getResponseBodyAsString();
-
-        if(responseCode != 200) {
-            log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
-            throw new SwsResponseCodeException(responseCode, responseBodyAsString);
-        }
-
-        // read response and generate XML document
-        Document response;
-        try {
-            if(log.isDebugEnabled()) {
-                log.debug("Got this response:\n" + responseBodyAsString);
-            }
-
-            // convert String --> JDOM Document
-            response = XmlUtils.string2Xml(responseBodyAsString);
-        }
-        catch(final JDOMException e) {
-            throw new SwsParsingServerResponseException(responseBodyAsString, e);
-        }
-        finally {
-            sendInvoices.releaseConnection();
-        }
-
-        List<Invoice> result;
-        try {
-            result = InvoiceHelper.xml2Invoice(response);
-        }
-        catch(final ParseException e) {
-            throw new SwsParsingServerResponseException(responseBodyAsString, e);
-        }
-
-        return result;
     }
 
-    public List<DraftInvoice> createDraftInvoices(final List<DraftInvoice> drafts) throws SwsRequiredInvoiceValueException, SwsTooManyInvoiceLinesException {
+	public List<Invoice> sendInvoices(String xml) throws IOException, SwsResponseCodeException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException, SwsNotValidRecipientException {
+
+		PostMethod sendInvoices = createPostMethod(SwsClient.SEND_INVOICE_HTTP_PARAMS, xml);
+
+		int responseCode = this.httpClient.executeMethod(sendInvoices);
+
+		if(log.isDebugEnabled()) {
+			log.debug("Response headers:\n" + getResponseHeaders(sendInvoices.getResponseHeaders()));
+		}
+
+		// get the response body as string
+		final String responseBodyAsString = sendInvoices.getResponseBodyAsString();
+
+		if(responseCode != 200) {
+			log.error("Response code != 200, it's " + responseCode + "\nResponse is:\n" + responseBodyAsString);
+			throw new SwsResponseCodeException(responseCode, responseBodyAsString);
+		}
+
+		// read response and generate XML document
+		Document response;
+		try {
+			if(log.isDebugEnabled()) {
+				log.debug("Got this response:\n" + responseBodyAsString);
+			}
+
+			// convert String --> JDOM Document
+			response = XmlUtils.string2Xml(responseBodyAsString);
+		}
+		catch(final JDOMException e) {
+			throw new SwsParsingServerResponseException(responseBodyAsString, e);
+		}
+		finally {
+			sendInvoices.releaseConnection();
+		}
+
+		List<Invoice> result;
+		try {
+			result = InvoiceHelper.xml2Invoice(response);
+		}
+		catch(final ParseException e) {
+			throw new SwsParsingServerResponseException(responseBodyAsString, e);
+		}
+
+		return result;
+	}
+
+	public List<DraftInvoice> createDraftInvoices(final List<DraftInvoice> drafts) throws SwsRequiredInvoiceValueException, SwsTooManyInvoiceLinesException {
 
         if(drafts == null || drafts.size() == 0) {
             return null;
