@@ -751,7 +751,7 @@ public class SwsClient {
      * Gets a Recipient by recipient number
      *
      * @param recipientNo the recipient number
-     * @return null if no recipient is found
+     * @return Recipient.NOT_FOUND if no recipient is found
      * @throws SwsResponseCodeException
      * @throws IOException
      * @throws SwsParsingServerResponseException
@@ -761,6 +761,14 @@ public class SwsClient {
 
         if(recipientNo == null || recipientNo.trim().length() == 0) {
             throw new IllegalArgumentException("Param recipientNo can't be null or an empty String");
+        }
+
+        try {
+            if (Integer.valueOf(recipientNo) <= 0) {
+                return Recipient.NOT_FOUND;
+            }
+        } catch (NumberFormatException e) {
+            // it's not a number, continue
         }
 
         final GetMethod getMethod = new GetMethod(this.BUTLER_PATH + "?action=select&type=recipient&recipientNo=" + recipientNo.trim());
@@ -775,7 +783,7 @@ public class SwsClient {
 
                 // 204 == No Content. Return null
                 if(responseCode == 204) {
-                    return null;
+                    return Recipient.NOT_FOUND;
                 }
                 else {
                     throw new SwsResponseCodeException(responseCode, response);

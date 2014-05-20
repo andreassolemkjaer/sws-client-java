@@ -15,7 +15,9 @@ import java.util.List;
  */
 public interface Recipient {
 
-	public String getRecipientNo();
+    public static final Recipient NOT_FOUND = new RecipientImpl();
+
+    public String getRecipientNo();
 
 	public void setRecipientNo(String recipientNo);
 
