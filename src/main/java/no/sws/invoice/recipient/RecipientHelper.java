@@ -88,6 +88,9 @@ public class RecipientHelper {
 		final String address2 = recipient.getAddress2();
 		final String country = recipient.getCountry();
         final String email = recipient.getEmail();
+        final String mobile = recipient.getMobile();
+        final String phone = recipient.getPhone();
+        final String fax = recipient.getFax();
 
         // recipientNo is optional
 		if(recipientNo != null && recipientNo.trim().length() > 0) {
@@ -118,7 +121,22 @@ public class RecipientHelper {
             result.add(new Element("email").setText(email));
         }
 
-		return result;
+        // mobile is optional
+        if (mobile != null && mobile.trim().length() > 0) {
+            result.add(new Element("mobile").setText(mobile));
+        }
+
+        // phone is optional
+        if (phone != null && phone.trim().length() > 0) {
+            result.add(new Element("phone").setText(phone));
+        }
+
+        // fax is optional
+        if (fax != null && fax.trim().length() > 0) {
+            result.add(new Element("fax").setText(fax));
+        }
+
+        return result;
 	}
 	
 	public static Recipient mapRecipientResponseToRecipient(String response) throws JDOMException, IOException, SwsParsingServerResponseException, SwsMissingRequiredElementInResponseException {

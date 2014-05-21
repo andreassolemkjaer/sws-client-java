@@ -423,6 +423,10 @@ public class InvoiceHelper extends SwsHelper {
 			invoice.setDunningFee(new BigDecimal(1f));
 			invoice.setInterestRate(new BigDecimal(1f));
 
+            invoice.getRecipient().setMobile(getElementValue(optionalElement, "mobile", false));
+            invoice.getRecipient().setPhone(getElementValue(optionalElement, "phone", false));
+            invoice.getRecipient().setFax(getElementValue(optionalElement, "fax", false));
+
 		}
 		else {
 			log.warn("No <invoice> element given to InvoiceHelper.mapOptionalValues():\n"

@@ -94,4 +94,10 @@ public interface Recipient {
     public void setCategories(List<String> categories);
 
     public String getOrgNo();
+
+    public String getMobile();
+
+    public String getPhone();
+
+    public String getFax();
 }
