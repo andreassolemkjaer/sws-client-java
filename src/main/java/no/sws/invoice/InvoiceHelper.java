@@ -481,4 +481,19 @@ public class InvoiceHelper extends SwsHelper {
 
         return result;
     }
+
+    public static String getBatchId(Document response) {
+
+        if (response != null && response.getRootElement() != null) {
+
+            String result = response.getRootElement().getAttributeValue("batchId");
+
+            if (result != null && result.trim().length() > 0) {
+                return result;
+            }
+            return null;
+        }
+
+        return null;
+    }
 }

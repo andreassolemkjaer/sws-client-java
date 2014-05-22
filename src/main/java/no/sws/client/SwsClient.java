@@ -8,6 +8,7 @@
  */
 package no.sws.client;
 
+import no.sws.SwsHelper;
 import no.sws.balance.Balance;
 import no.sws.balance.BalanceHelper;
 import no.sws.draft.DraftInvoice;
@@ -70,6 +71,7 @@ public class SwsClient {
     private static NameValuePair[] SELECT_INVOICE_STATUS;
 
     private final HttpClient httpClient;
+    private String lastBatchId = null;
 
     /**
      * Default constructor for SwsClient
@@ -106,6 +108,15 @@ public class SwsClient {
         this.httpClient = initHttpClient(username, password);
 
         assert this.httpClient != null;
+    }
+
+    /**
+     * Holds the last batchId received from the server
+     *
+     * @return The value of the batchId, or null if not provided.
+     */
+    public String getLastBatchId() {
+        return lastBatchId;
     }
 
     /**
@@ -425,7 +436,9 @@ public class SwsClient {
 		List<Invoice> result;
 		try {
 			result = InvoiceHelper.xml2Invoice(response);
-		}
+
+            lastBatchId = InvoiceHelper.getBatchId(response);
+        }
 		catch(final ParseException e) {
 			throw new SwsParsingServerResponseException(responseBodyAsString, e);
 		}
@@ -433,6 +446,10 @@ public class SwsClient {
 		return result;
 	}
 
+    /**
+     * @deprecated Drafts should be handled and persisted in the implementing software.
+     */
+    @Deprecated
 	public List<DraftInvoice> createDraftInvoices(final List<DraftInvoice> drafts) throws SwsRequiredInvoiceValueException, SwsTooManyInvoiceLinesException {
 
         if(drafts == null || drafts.size() == 0) {
