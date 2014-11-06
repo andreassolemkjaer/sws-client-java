@@ -18,6 +18,8 @@ SendRegning.no is a Norwegian SaaS for issuing invoices and keep track of paymen
 
 ### Java
 
+You can have a look at our Java client demo to get an idea of what [this API](https://github.com/SendRegning/sws-client-java/blob/master/src/main/java/no/sws/client/SwsClient.java) is capable to do
+
 ```
 mvn clean install
 ```
