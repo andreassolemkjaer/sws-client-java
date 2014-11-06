@@ -1,18 +1,38 @@
+SendRegning Web Services
+========================
+
+* [SendRegning Web Services implementation guide](docs/guide.md)
+* [SendRegning Web Services API](docs/integration.md)
+
 Common repository hosting different clients for SendRegning.no Web Services.
 
 SendRegning.no is a Norwegian SaaS for issuing invoices and keep track of payments etc.
 
-You can have a look at our Java client demo to get an idea of what this API is capable to do: http://code.google.com/p/sendregning-ws-clients/source/browse/trunk/src/main/java/no/sws/client/SwsClientDemo.java
+### Available clients
 
-Since SendRegning.no is a Norwegian product for the Norwegian market, the following is written in Norwegian.
+* [Java 1.5+](docs/java.md)
+* [PHP 5+](docs/php.md)
+* [Perl](docs/perl.md)
+* [Ruby](https://github.com/elektronaut/sendregning) - Thanks to [Inge Jørgensen](https://github.com/elektronaut)
+* [C#](docs/csharp.md)
 
-Akkurat nå har vi klienter i følgende språk:
+### Java
 
-    Java 1.5 Les mer
-    PHP 5 - Les mer
-    Perl - Les mer
-    Ruby - Les mer - Takk til Inge Jørgensen
-        Kom i gang med SendRegning Ruby klient 
-    C# - Les mer 
+```
+mvn clean install
+```
 
-Her kan du lese SendRegning.no Web Services implementasjonsguide 
+### PHP
+
+```
+cd /src/main/php
+php SendRegningClient.php email password
+```
+
+### Perl
+
+This client is implemented against our old form based authentication SWS. Form based authentication will be ended in late 2011
+
+```
+cd /src/main/perl
+```
