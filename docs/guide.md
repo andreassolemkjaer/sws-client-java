@@ -6,7 +6,7 @@ SendRegning Web Services implementation guide
 
 [What is SendRegning Web Services](http://www.sendregning.no/integrasjon)
 
-[For more technical point of view](docs/integration.md)
+[For more technical point of view](integration.md)
 
 
 The following functionality is exposed via SWS:
@@ -49,9 +49,9 @@ A valid HTTP command may therefore look like `https://www.sendregning.no/ws/butl
 
 #### Explanation for HTTP parameters
 
-** action **
+**action**
 
-This parameter must ** ALWAYS ** be specified.
+This parameter must**ALWAYS**be specified.
 
 * `send` - Sends n instances of chosen type
 * `select` - Returns n instances of chosen type
@@ -59,9 +59,9 @@ This parameter must ** ALWAYS ** be specified.
 * `update` - Updates n instances of chosen type
 * `delete` - Deletes one instance of chosen type
 
-** type **
+**type**
 
-This parameter must ** ALWAYS ** be specified.
+This parameter must**ALWAYS**be specified.
 
 * `invoice` - Invoice
 * `dunning` - Dunning
@@ -70,7 +70,7 @@ This parameter must ** ALWAYS ** be specified.
 * `product` - Product
 * `constant` - Constants (VAT rates, default interest, dunning fee, etc.)
 
-** test **
+**test**
 
 * `true`
   * If `test=true`, the server will respond by validating the HTTP command and returning real test data and response codes.
@@ -114,7 +114,7 @@ SWS returns the following response content types:
 
 When you are going to send out invoices via SWS, you send us a XML document over HTTPS, when you are sending us an HTTP command about account-related data, you get XML back that your client program must interpret correctly.
 
-** PLEASE READ VERY CAREFULLY! **
+**PLEASE READ VERY CAREFULLY!**
 
 There is NO official or unofficial DTD that you can use to validate a XML document that you receive from SWS. The reason for this is that we have designed our XML documents in such a way that changes in the XML documents do not require changes in the SWS clients, i.e. your data program. This is a great help to both you and us.
 
@@ -165,7 +165,7 @@ Some common countries are automatically changed on the server side instead of th
 * Norway is changed to NORGE
 * Sverige is changed to SWEDEN
 
-Your client can fetch SendRegning's list of countries from the new resource [CountryList](docs/country-list.md)
+Your client can fetch SendRegning's list of countries from the new resource [Country list](country-list.md)
 
 If you use an invalid country, you will get a code 400 error.
 
@@ -173,7 +173,7 @@ If you use an invalid country, you will get a code 400 error.
 
 #### Uptime
 
-SendRegning.no does not have guaranteed uptime, which means that you ** MUST ** program your client to allow for time out, etc.
+SendRegning.no does not have guaranteed uptime, which means that you**MUST**program your client to allow for time out, etc.
 
 SendRegning.no takes no responsibility for clients that crash, freeze up, or fail because the connection between the client and SWS is down.
 
@@ -193,7 +193,7 @@ SendRegning.no reserves the right to upgrade the server/service, which means tha
 
 For help implementing SWS, you can make direct contact with the developer of SWS at the following e-mail address [sws@sendregning.no](mailto:sws@sendregning.no). We can also provide consulting assistance in the implementation.
 
-** Please read this document carefully before you ask the developer directly. **
+**Please read this document carefully before you ask the developer directly.**
 
 #### Errors
 

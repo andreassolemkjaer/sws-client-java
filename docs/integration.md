@@ -2,7 +2,6 @@ SendRegning Web Services API
 ============================
 
 * [SendRegning utviklere](https://www.sendregning.no/utviklere) [norwegian]
-* [Google Code Pages](https://code.google.com/p/sendregning-ws-clients/wiki/Implementasjonsguide)
 
 ## CURL
 
@@ -135,8 +134,7 @@ select-invoice.xml
 
 ## PHP
 
-We have written a small PHP-implementation which you will find on our [Google Code pages](https://code.google.com/p/sendregning-ws-clients/).
-Here you will also find information on the [required steps](https://code.google.com/p/sendregning-ws-clients/source/checkout) to checkout the code.
+We have written a small [PHP-implementation](php.md).
 
 SendRegningclient.php
 
@@ -183,7 +181,7 @@ echo $lastInvoice;
 ### JAVA
 
 We have written a Java API which implements support for most of the functionality. You can download this Java API, use it freely, and even modify the source code as you wish.
-You'll find this Java API on our [Google Code pages](http://code.google.com/p/sendregning-ws-clients/). Here you will also find information on the [required steps](http://code.google.com/p/sendregning-ws-clients/source/checkout) to checkout the code.
+You'll find this [Java API](java.md).
 
 SwsClientDemo.java
 
