@@ -2,7 +2,7 @@ SendRegning Web Services
 ========================
 
 * [Implementation guide](docs/guide.md)
-* [API](docs/integration.md)
+* [Examples](docs/integration.md)
 
 Common repository hosting different clients for SendRegning.no Web Services.
 
@@ -13,6 +13,7 @@ SendRegning.no is a Norwegian SaaS for issuing invoices and keep track of paymen
 * [Java 1.5+](docs/java.md)
 * [PHP 5+](docs/php.md)
 * [Perl](docs/perl.md)
+* [Python](docs/python.md)
 * [Ruby](https://github.com/elektronaut/sendregning) - Thanks to [Inge Jørgensen](https://github.com/elektronaut)
 * [C#](docs/csharp.md)
 

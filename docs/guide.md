@@ -1,12 +1,11 @@
 SendRegning Web Services implementation guide
 =============================================
 
-
 ### Introduction
 
 [What is SendRegning Web Services](http://www.sendregning.no/integrasjon)
 
-[For more technical point of view](integration.md)
+[Examples](integration.md)
 
 
 The following functionality is exposed via SWS:
@@ -51,7 +50,7 @@ A valid HTTP command may therefore look like `https://www.sendregning.no/ws/butl
 
 **action**
 
-This parameter must**ALWAYS**be specified.
+This parameter must **ALWAYS** be specified.
 
 * `send` - Sends n instances of chosen type
 * `select` - Returns n instances of chosen type
@@ -61,7 +60,7 @@ This parameter must**ALWAYS**be specified.
 
 **type**
 
-This parameter must**ALWAYS**be specified.
+This parameter must **ALWAYS** be specified.
 
 * `invoice` - Invoice
 * `dunning` - Dunning
@@ -173,7 +172,7 @@ If you use an invalid country, you will get a code 400 error.
 
 #### Uptime
 
-SendRegning.no does not have guaranteed uptime, which means that you**MUST**program your client to allow for time out, etc.
+SendRegning.no does not have guaranteed uptime, which means that you **MUST** program your client to allow for time out, etc.
 
 SendRegning.no takes no responsibility for clients that crash, freeze up, or fail because the connection between the client and SWS is down.
 
