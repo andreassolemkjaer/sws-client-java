@@ -12,18 +12,18 @@ The following functionality is exposed via SWS:
 
 #### Send
 
-* Invoice - Send `n` invoices/credit invoices on email, paper or as an EHF invoice through the PEPPOL network.
-* Dunning - Send `n` dunnings with/without dunning fee/interest.
+* [Invoice](send-invoice.md) - Send `n` invoices/credit invoices on email, paper or as an EHF invoice through the PEPPOL network.
+* [Dunning](send-dunning.md) - Send `n` dunnings with/without dunning fee/interest.
 
 
 #### Query
 
-* Invoices - Find sent invoices, possible to download as PDF, JPEG og XML
-* Invoice status - Get status for sent invoices
-* Constants - Use SendRegning constants in your app
-* Sales ledger - Check balance, payments, etc... for recipients
-* Recipient list - Find registered recipients, search recipient list, show categories, etc...
-* Country list - Get countries that are valid in SendRegning
+* [Invoices](invoices.md) - Find sent invoices, possible to download as PDF, JPEG og XML
+* [Invoice status](invoice-status.md) - Get status for sent invoices
+* [Constants](constans.md) - Use SendRegning constants in your app
+* [Sales ledger](sales-ledger.md) - Check balance, payments, etc... for recipients
+* [Recipient list](recipient-list.md) - Find registered recipients, search recipient list, show categories, etc...
+* [Country list](country-list.md) - Get countries that are valid in SendRegning
 
 ### Technical
 
@@ -36,7 +36,7 @@ SendRegning Web Services supports BASIC authentication, so you add a user name a
 HTTP command matrix
 
 URL | action | type | xml | method
-----|--------|------|-----|------------
+----|--------|------|-----|-------
 https://www.sendregning.no/ws/butler.do | send | invoice<br>dunning | XML-file | POST
 https://www.sendregning.no/ws/butler.do | select | invoice<br>invoice-status<br>recipient<br>product | XML-file | POST
 https://www.sendregning.no/ws/butler.do | select | constant | - | GET

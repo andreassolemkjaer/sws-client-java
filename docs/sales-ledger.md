@@ -1,23 +1,19 @@
-#summary Sales ledger.
-#labels Featured,Phase-Implementation
-#sidebar SideBar
-
-= Sales ledger =
-
-*Table of content*
-<wiki:toc max_depth="5" />
+Sales ledger
+============
 
 SendRegning Web Services - Kundereskontro
 
 Eksponerer kundereskontro for en gitt mottaker, samt saldo for alle mottakerne.
 
-== Alle posteringer for en gitt mottaker ==
+### Alle posteringer for en gitt mottaker
 
-=== Request (HTTP GET) ===
+#### Request (HTTP GET)
+
 https://www.sendregning.no/ws/butler.do?action=select&type=salesledger&recipientNo=1
 
-==== Respons ====
-{{{
+#### Respons
+
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <salesledger>
   <recipients>
@@ -61,75 +57,76 @@ https://www.sendregning.no/ws/butler.do?action=select&type=salesledger&recipient
     <recipient>
   </recipients>
 </salesledger>
-}}}
+```
 
-===== Attributter på elementer i responsen =====
+**Attributter på elementer i responsen**
 
-{{{<recipient no="kundenummer">}}}
+```xml
+<recipient no="kundenummer">
+<entry id="SendRegning.no entry id">
+```
 
-{{{<entry id="SendRegning.no entry id">}}}
-
-===== Posteringstyper i responsen ({{{<type>}}}-element) =====
+**Posteringstyper i responsen (`<type>`-element)**
 
 En posteringstype er enten av typen debet eller kredit.
 
- * Debet
+* Debet
   * invoice
-   * Faktura 
+    * Faktura
   * dunningFee
-   * Purregebyr 
+    * Purregebyr
   * interest
-   * Renter 
+    * Renter
   * debitCorrection
-   * Korrigeringspost, brukes hvis det er gjort en feil i en tidligere postering, vanligvis en innbetaling 
+    * Korrigeringspost, brukes hvis det er gjort en feil i en tidligere postering, vanligvis en innbetaling
   * refund
-   * Tilbakebetaling 
+    * Tilbakebetaling
   * debitAbduction
-   * Brukes til avstemming, "tar" kredit fra en innbetaling sånn at krediten kan "gis" til en annen faktura med creditDistribution
+    * Brukes til avstemming, "tar" kredit fra en innbetaling sånn at krediten kan "gis" til en annen faktura med creditDistribution
   * debitDistribution
-   * Brukes til avstemming, "gir" debet til en post (nesten alltid en credit) brukes vanligvis hvis det blir distribuert mer kredit fra en innbetaling enn det egentlig var kredit i den innbetalingen (innbetalinger som referer til flere innbetalinger og minst en kreditnota) 
-
- * Kredit
+    * Brukes til avstemming, "gir" debet til en post (nesten alltid en credit) brukes vanligvis hvis det blir distribuert mer kredit fra en innbetaling enn det egentlig var kredit i den innbetalingen (innbetalinger som referer til flere innbetalinger og minst en kreditnota)
+* Kredit
   * credit
-   * Kreditnota 
+    * Kreditnota
   * automaticPayment
-   * Automatisk registrert innbetaling 
+    * Automatisk registrert innbetaling
   * manualPayment
-   * Manuelt registrert innbetaling
+    * Manuelt registrert innbetaling
   * collectionPayment
-   * Innbetaling fra inkassoselskap
+    * Innbetaling fra inkassoselskap
   * collectionDirectPayment
-   * Direkteinnbetaling fra skyldner på krav sendt til inkasso
+    * Direkteinnbetaling fra skyldner på krav sendt til inkasso
   * lost
-   * Tapt faktura 
+    * Tapt faktura
   * lostInterest
-   * Tapte renter 
+    * Tapte renter
   * feeCancelation
-   * Kansellering av purregebyr 
+    * Kansellering av purregebyr
   * creditCorrection
-   * Korrigeringspost, brukes hvis det er en feil i en tidligere postering 
+    * Korrigeringspost, brukes hvis det er en feil i en tidligere postering
   * creditAbduction
-   * Brukes til avstemming, "tar" debet fra en post, vanligvis en invoice slik at det kan gis til en credit
+    * Brukes til avstemming, "tar" debet fra en post, vanligvis en invoice slik at det kan gis til en credit
   * creditDistribution
-   * Brukes til avstemming, "gir" kredit til en post, vanligvis en invoice etter at krediten er tatt fra en automatic-/manualPayment
-
- * Ukjent
+    * Brukes til avstemming, "gir" kredit til en post, vanligvis en invoice etter at krediten er tatt fra en automatic-/manualPayment
+* Ukjent
   * unknown
-   * Brukes hvis det er innført en ny type i salesledger som ikke er implementert i SWS. Dette kan typisk skje mellom nye versjoner av SendRegning.no og SWS
+    * Brukes hvis det er innført en ny type i salesledger som ikke er implementert i SWS. Dette kan typisk skje mellom nye versjoner av SendRegning.no og SWS
 
-{{{<invoiceNo>}}} og {{{<invoiceUrl>}}}
+`<invoiceNo>` og `<invoiceUrl>`
 
 I visse tilfeller kan disse elementene være utelatt, f.eks ved innbetalinger der vi vet hvem som har betalt, men ikke på hvilken faktura innbetalinger er for. Det kan også være andre tilfeller der dette kan skje.
 
-== Saldo for alle kunder ==
+### Saldo for alle kunder
 
 Hvis saldo er større enn 0 - tallet null -, skylder mottakeren deg penger. Ergo; er saldo mindre enn null, skylder du mottakeren penger.
 
-=== Request (HTTP GET) ===
+#### Request (HTTP GET)
+
 https://www.sendregning.no/ws/butler.do?action=select&type=balance
 
-==== Respons ====
-{{{
+#### Respons
+
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <balance>
   <recipients>
@@ -141,15 +138,17 @@ https://www.sendregning.no/ws/butler.do?action=select&type=balance
     </recipient>
   </recipients>
 </balance>
-}}}
+```
 
-== Saldo for en kunde ==
+### Saldo for en kunde
 
-=== Request (HTTP GET) ===
+#### Request (HTTP GET)
+
 https://www.sendregning.no/ws/butler.do?action=select&type=balance&recipientNo=1
 
-==== Respons ====
-{{{
+#### Respons
+
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <balance>
   <recipients>
@@ -158,12 +157,14 @@ https://www.sendregning.no/ws/butler.do?action=select&type=balance&recipientNo=1
     </recipient>
   </recipients>
 </balance>
-}}}
+```
 
-===== Attributter på elementer i responsen =====
+**Attributter på elementer i responsen**
 
-{{{<recipient no="kundenummer">}}}
+```xml
+<recipient no="kundenummer">
+```
 
-== Respons HTTP kode ==
+### Respons HTTP kode
 
 Hvis man angir en recipientNo som ikke finnes i vårt system, returneres statuskoden 204 - No Content
