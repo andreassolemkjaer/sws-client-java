@@ -5,34 +5,34 @@ In order to run a query on invoice status, you post an XML file to SWS that inte
 
 ### Description
 
-| Element name | The element's parents | Element description | Data type | Standard value |
-|---|---|---|
-| `<select-status>` | - | *Root element*<br>This is the root element that contains the query.  This element *may* contain the following text.<br><br>`ALL` - Select all invoices<br>`FIRST _n_` - Selects the first _n_ invoices<br>`LAST _n_` - Selects the last _n_ invoices.<br><br>If _n_ is omitted then it is the same as 1. | Text - maximum 10 characters. | - |
-| `<invoiceNumbers>` | `<select-status>` | *Invoice numbers*<br>The `<invoiceNumbers>` element may contain _n_ `<invoiceNumber>` elements.<br><br>*NOTE:* You can *not* use the `<invoiceNumbers>` element together with `ALL`, `FIRST` and `LAST`. | - | - |
-| `<invoiceNumber>` | `<invoiceNumbers>` | *Invoice number*<br>Contains an invoice number to be included in the query. | Integer | - |
-| `<where>` | `<select-status>` | *Element for narrowing the query*<br>Contains elements that narrow the query. As of today, there is support for these restrictions:    *`<recipientNumbers>`   *`<states>` | - | - |
-| `<recipientNumbers>` | `<where>` | *Recipient numbers*<br>The `<recipientNumbers>` element may contain _n_ `<recipientNumber>` elements.  Only works together with `ALL`, `FIRST` and `LAST`. | - | - |
-| `<recipientNumber>` | `<recipientNumbers>` | *Recipient number*<br>Contains a recipient number that narrows the query.  _Duplicate elements will be ignored_ | Text - maximum 32 characters | - |
-| `<states>` | `<where>` | *States*<br>The `<states>` element may contain _n_ `<state>` elements.  Only works together with `ALL`, `FIRST` and `LAST`. | - | - |
-| `<state>` | `<states>` | *State*<br>Contains a state that narrows the query.  _Duplicate elements will be ignored_ | Text - maximum 20 characters | - |
+| Element name | The element's parents | Element description | Data type | Standard value
+|--------------|-----------------------|---------------------|-----------|---------------
+| `<select-status>` | - | *Root element*<br>This is the root element that contains the query.  This element *may* contain the following text.<br><br>`ALL` - Select all invoices<br>`FIRST _n_` - Selects the first _n_ invoices<br>`LAST _n_` - Selects the last _n_ invoices.<br><br>If _n_ is omitted then it is the same as 1. | Text - maximum 10 characters. | -
+| `<invoiceNumbers>` | `<select-status>` | *Invoice numbers*<br>The `<invoiceNumbers>` element may contain _n_ `<invoiceNumber>` elements.<br><br>*NOTE:* You can *not* use the `<invoiceNumbers>` element together with `ALL`, `FIRST` and `LAST`. | - | -
+| `<invoiceNumber>` | `<invoiceNumbers>` | *Invoice number*<br>Contains an invoice number to be included in the query. | Integer | -
+| `<where>` | `<select-status>` | *Element for narrowing the query*<br>Contains elements that narrow the query. As of today, there is support for these restrictions:    *`<recipientNumbers>`   *`<states>`* | - | -
+| `<recipientNumbers>` | `<where>` | *Recipient numbers*<br>The `<recipientNumbers>` element may contain _n_ `<recipientNumber>` elements.  Only works together with `ALL`, `FIRST` and `LAST`. | - | -
+| `<recipientNumber>` | `<recipientNumbers>` | *Recipient number*<br>Contains a recipient number that narrows the query.  _Duplicate elements will be ignored_ | Text - maximum 32 characters | -
+| `<states>` | `<where>` | *States*<br>The `<states>` element may contain _n_ `<state>` elements.  Only works together with `ALL`, `FIRST` and `LAST`. | - | -
+| `<state>` | `<states>` | *State*<br>Contains a state that narrows the query.  _Duplicate elements will be ignored_ | Text - maximum 20 characters | -
 
 #### Matrix for queries (invoice status)
 
-||||||
+|||||
 |---|
-| `<select-status>` | `ALL` | `FIRST _n_` | `LAST _n_` | N/A |
-| `    <invoiceNumbers>` |||||
-| `        <invoiceNumber>Integer</invoiceNumber>` | N/A | N/A | N/A | `n` |
-| `    </invoiceNumbers>` |||||
-| `    <where>` |||||
-| `        <recipientNumbers>` |||||
-| `            <recipientNumber>Text</recipientNumber>` | `n` | `n` | `n` | N/A |
-| `        </recipientNumbers>` |||||
-| `        <states>` |||||
-| `            <state>Text<state>` | `n` | `n` | `n` | N/A |
-| `        </states>` |||||
-| `    <where>` |||||
-| `</select-status>` ||||||
+| `<select-status>` | `ALL` | `FIRST _n_` | `LAST _n_` | N/A
+| `    <invoiceNumbers>` ||||
+| `        <invoiceNumber>Integer</invoiceNumber>` | N/A | N/A | N/A | `n`
+| `    </invoiceNumbers>` ||||
+| `    <where>` ||||
+| `        <recipientNumbers>` ||||
+| `            <recipientNumber>Text</recipientNumber>` | `n` | `n` | `n` | N/A
+| `        </recipientNumbers>` ||||
+| `        <states>` ||||
+| `            <state>Text<state>` | `n` | `n` | `n` | N/A
+| `        </states>` ||||
+| `    <where>` ||||
+| `</select-status>` |||||
 
 `n = multiple instances`
 
