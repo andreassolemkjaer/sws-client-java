@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2009 Pal Orby, SendRegning AS. <http://www.sendregning.no/>
+	Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.sendregning.no/>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

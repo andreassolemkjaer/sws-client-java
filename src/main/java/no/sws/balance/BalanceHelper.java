@@ -1,16 +1,15 @@
 package no.sws.balance;
 
+import no.sws.SwsHelper;
+import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
+import no.sws.client.SwsMissingRequiredElementInResponseException;
+import org.jdom.Document;
+import org.jdom.Element;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jdom.Document;
-import org.jdom.Element;
-
-import no.sws.SwsHelper;
-import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
-import no.sws.client.SwsMissingRequiredElementInResponseException;
 
 public class BalanceHelper extends SwsHelper {
 

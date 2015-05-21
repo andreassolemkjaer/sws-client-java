@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pal Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -8,20 +8,20 @@
  */
 package no.sws.invoice;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import no.sws.client.SwsNotValidRecipientException;
 import no.sws.client.SwsTooManyInvoiceLinesException;
 import no.sws.invoice.line.InvoiceLine;
 import no.sws.invoice.recipient.Recipient;
 import no.sws.invoice.shipment.Shipment;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 /**
  * A debit invoice (the opposite of a credit invoice).
  * 
- * @author Pal Orby, SendRegning AS
+ * @author Pål Orby, SendRegning AS
  */
 public interface Invoice {
 

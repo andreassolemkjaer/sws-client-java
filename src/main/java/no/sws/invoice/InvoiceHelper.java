@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pal Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -9,14 +9,7 @@
 package no.sws.invoice;
 
 import no.sws.SwsHelper;
-import no.sws.client.SwsClient;
-import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
-import no.sws.client.SwsMissingRequiredElementInResponseException;
-import no.sws.client.SwsNoInvoiceLinesForInvoiceException;
-import no.sws.client.SwsNoRecipientForInvoiceException;
-import no.sws.client.SwsNotValidRecipientException;
-import no.sws.client.SwsRequiredInvoiceValueException;
-import no.sws.client.SwsTooManyInvoiceLinesException;
+import no.sws.client.*;
 import no.sws.invoice.line.InvoiceLine;
 import no.sws.invoice.line.InvoiceLineFactory;
 import no.sws.invoice.line.InvoiceLineHelper;
@@ -26,10 +19,11 @@ import no.sws.invoice.recipient.RecipientHelper;
 import no.sws.invoice.shipment.Shipment;
 import no.sws.invoice.shipment.ShipmentType;
 import no.sws.util.XmlUtils;
-import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -37,11 +31,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author Pal Orby, SendRegning AS
+ * @author Pål Orby, SendRegning AS
  */
 public class InvoiceHelper extends SwsHelper {
 
-	private static final Logger log = Logger.getLogger(InvoiceHelper.class);
+	private static final Logger log = LoggerFactory.getLogger(InvoiceHelper.class);
 
 	/**
 	 * @param invoice

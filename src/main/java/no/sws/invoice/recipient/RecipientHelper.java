@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pal Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -8,24 +8,23 @@
  */
 package no.sws.invoice.recipient;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
 import no.sws.client.SwsMissingRequiredElementInResponseException;
 import no.sws.client.SwsParsingServerResponseException;
 import no.sws.client.SwsRequiredInvoiceValueException;
 import no.sws.recipient.RecipientCategory;
 import no.sws.recipient.RecipientCategoryFactory;
 import no.sws.util.XmlUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * @author Pal Orby, SendRegning AS
+ * @author Pål Orby, SendRegning AS
  */
 public class RecipientHelper {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Pal Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
+ * Copyright (C) 2009 Pål Orby, SendRegning AS. <http://www.balder.no/> This program is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in
  * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -8,7 +8,6 @@
  */
 package no.sws.client;
 
-import no.sws.SwsHelper;
 import no.sws.balance.Balance;
 import no.sws.balance.BalanceHelper;
 import no.sws.draft.DraftInvoice;
@@ -25,11 +24,7 @@ import no.sws.recipient.RecipientCategory;
 import no.sws.salesledger.SalesledgerEntry;
 import no.sws.salesledger.SalesledgerHelper;
 import no.sws.util.XmlUtils;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthPolicy;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -38,11 +33,12 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.Format;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -53,11 +49,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Pal Orby, SendRegning AS
+ * @author Pål Orby, SendRegning AS
  */
 public class SwsClient {
 
-    private static final Logger log = Logger.getLogger(SwsClient.class);
+    private static final Logger log = LoggerFactory.getLogger(SwsClient.class);
 
     private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     private static final String SELECT_All_INVOICES_XML = XML_HEADER + "<select>ALL</select>";

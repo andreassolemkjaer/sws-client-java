@@ -1,18 +1,17 @@
 package no.sws;
 
+import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
+import no.sws.client.SwsMissingRequiredElementInResponseException;
+import no.sws.util.XmlUtils;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.output.Format;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
-import no.sws.client.SwsMissingRequiredElementInResponseException;
-import no.sws.util.XmlUtils;
-
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.output.Format;
 
 /**
  * Abstract helper class hosting common helper methods between domain helpers.

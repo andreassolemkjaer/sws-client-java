@@ -1,18 +1,17 @@
 package no.sws.salesledger;
 
+import no.sws.SwsHelper;
+import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
+import no.sws.client.SwsMissingRequiredElementInResponseException;
+import org.jdom.DataConversionException;
+import org.jdom.Document;
+import org.jdom.Element;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jdom.DataConversionException;
-import org.jdom.Document;
-import org.jdom.Element;
-
-import no.sws.SwsHelper;
-import no.sws.client.SwsMissingRequiredElementAttributeInResponseException;
-import no.sws.client.SwsMissingRequiredElementInResponseException;
 
 public class SalesledgerHelper extends SwsHelper {
 

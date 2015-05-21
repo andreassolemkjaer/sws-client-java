@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.sws.app</groupId>
 	<artifactId>sws-client</artifactId>
-	<version>1.16</version>
+	<version>1.17</version>
 	<packaging>jar</packaging>
 	<name>SWS Client</name>
 	<organization>
@@ -12,7 +12,7 @@
 	</organization>
 	<developers>
 		<developer>
-			<name>Pal Orby</name>
+			<name>Pål Orby</name>
 			<email>orby at sendregning.no</email>
 			<timezone>+1</timezone>
 			<organization>SendRegning AS</organization>
@@ -45,14 +45,20 @@
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
-		</dependency>
-		<dependency>
-			<groupId>jdom</groupId>
+			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>1.1</version>
 		</dependency>
