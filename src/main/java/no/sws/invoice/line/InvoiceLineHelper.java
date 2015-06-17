@@ -19,40 +19,45 @@ import java.util.List;
  */
 public class InvoiceLineHelper {
 
-	public static List<Element> getInvoiceLineValuesAsXmlElements(final InvoiceLine currentLine) {
+    public static List<Element> getInvoiceLineValuesAsXmlElements(final InvoiceLine currentLine) {
 
-		final Integer itemNo = currentLine.getItemNo();
-		final BigDecimal qty = currentLine.getQty();
-		final String prodCode = currentLine.getProdCode();
-		final String desc = currentLine.getDesc();
-		final BigDecimal unitPrice = currentLine.getUnitPrice();
-		final BigDecimal discount = currentLine.getDiscount();
-		final Integer tax = currentLine.getTax();
+        final Integer itemNo = currentLine.getItemNo();
+        final BigDecimal qty = currentLine.getQty();
+        final String prodCode = currentLine.getProdCode();
+        final String desc = currentLine.getDesc();
+        final BigDecimal unitPrice = currentLine.getUnitPrice();
+        final BigDecimal discount = currentLine.getDiscount();
+        final Integer tax = currentLine.getTax();
 
-		final List<Element> result = new LinkedList<Element>();
+        final List<Element> result = new LinkedList<Element>();
 
-		if(itemNo != null) {
-			result.add(new Element("itemNo").setText(itemNo.toString()));
-		}
-		if(qty != null) {
-			result.add(new Element("qty").setText(qty.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
-		}
-		if(prodCode != null) {
-			result.add(new Element("prodCode").setText(prodCode));
-		}
-		if(desc != null) {
-			result.add(new Element("desc").setText(desc));
-		}
-		if(unitPrice != null) {
-			result.add(new Element("unitPrice").setText(unitPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
-		}
-		if(discount != null) {
-			result.add(new Element("discount").setText(discount.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
-		}
-		if(tax != null) {
-			result.add(new Element("tax").setText(tax.toString()));
-		}
+        if (itemNo != null) {
+            result.add(new Element("itemNo").setText(itemNo.toString()));
+        }
+        if (qty != null) {
+            result.add(new Element("qty").setText(qty.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
+        }
+        if (prodCode != null) {
+            result.add(new Element("prodCode").setText(prodCode));
+        }
+        if (desc != null) {
+            result.add(new Element("desc").setText(desc));
+        }
+        if (unitPrice != null) {
+            result.add(new Element("unitPrice").setText(unitPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
+        }
+        if (discount != null) {
 
-		return result;
-	}
+            if (discount.compareTo(new BigDecimal("100.00")) == 0) {
+                result.add(new Element("discount").setText("100"));
+            } else {
+                result.add(new Element("discount").setText(discount.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()));
+            }
+        }
+        if (tax != null) {
+            result.add(new Element("tax").setText(tax.toString()));
+        }
+
+        return result;
+    }
 }

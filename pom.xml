@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>no.sws.app</groupId>
-	<artifactId>sws-client</artifactId>
-	<version>1.17</version>
-	<packaging>jar</packaging>
-	<name>SWS Client</name>
-	<organization>
-		<name>SendRegning AS</name>
-		<url>http://www.sendregning.no/</url>
-	</organization>
-	<developers>
-		<developer>
-			<name>Pål Orby</name>
-			<email>orby at sendregning.no</email>
-			<timezone>+1</timezone>
-			<organization>SendRegning AS</organization>
-		</developer>
-	</developers>
-	<scm>
-		<connection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</developerConnection>
-	</scm>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>no.sws.app</groupId>
+    <artifactId>sws-client</artifactId>
+    <version>1.18</version>
+    <packaging>jar</packaging>
+    <name>SWS Client</name>
+    <organization>
+        <name>SendRegning AS</name>
+        <url>http://www.sendregning.no/</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Pål Orby</name>
+            <email>orby at sendregning.no</email>
+            <timezone>+1</timezone>
+            <organization>SendRegning AS</organization>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://sendregning-ws-clients.googlecode.com/svn/trunk/</developerConnection>
+    </scm>
 
-	<distributionManagement>
-		<!-- use the following if you're not using a snapshot version. -->
-		<repository>
-			<id>sr-repo</id>
-			<name>Sendregning on nexus</name>
-			<url>http://nexus.sendregning.no:8081/nexus/content/repositories/sendregning
-			</url>
-		</repository>
-		<!-- use the following if you ARE using a snapshot version. -->
-		<snapshotRepository>
-			<id>sr-snapshot-repo</id>
-			<name>Sendregning snapshot on nexus</name>
-			<url>http://nexus.sendregning.no:8081/nexus/content/repositories/snapshots
-			</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <!-- use the following if you're not using a snapshot version. -->
+        <repository>
+            <id>sr-repo</id>
+            <name>Sendregning on nexus</name>
+            <url>http://nexus.sendregning.no:8081/nexus/content/repositories/sendregning
+            </url>
+        </repository>
+        <!-- use the following if you ARE using a snapshot version. -->
+        <snapshotRepository>
+            <id>sr-snapshot-repo</id>
+            <name>Sendregning snapshot on nexus</name>
+            <url>http://nexus.sendregning.no:8081/nexus/content/repositories/snapshots
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.12</version>
         </dependency>
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>1.1</version>
-		</dependency>
-	</dependencies>
-	<build>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+    <build>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -80,16 +81,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<inherited>true</inherited>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
         </plugins>
-	</build>
+    </build>
 </project>
