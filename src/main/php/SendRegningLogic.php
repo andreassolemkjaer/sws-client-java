@@ -48,8 +48,6 @@ class SendRegningLogic {
 	// constructor
 	function __construct($username, $password, $debug=0, $httpClientDebug=0) {
 
-		$this->client->debug=$httpClientDebug;
-
 		// prepare the login url
 		$authentication=(strlen($username) ? UrlEncode($username).":".UrlEncode($password)."@" : "");
 
@@ -60,6 +58,7 @@ class SendRegningLogic {
 		}
 
 		$this->client = new http_class();
+		$this->client->debug=$httpClientDebug;
 		$this->client->prefer_curl=1;
 		$this->client->user_agent='SWS PHP Client - (httpclient - http://www.phpclasses.org/httpclient $Revision: 1.76 $';
 		$this->client->follow_redirect=1;
